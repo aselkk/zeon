@@ -71,8 +71,6 @@ const SearchBar = ({searchValue, setSearchValue, setSearchResult, searchResult  
         const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products?title=${searchValue}`)
         const jsonData = await fetchData.json()
         setSearchResult(jsonData)
-        // setSearchValue(inputValue)
-        // console.log(searchValue)
     }
 
     return (

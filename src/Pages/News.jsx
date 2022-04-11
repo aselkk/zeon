@@ -10,7 +10,7 @@ import styled from 'styled-components'
 
 const News = () => {
 
-    const [data, setData] = useState(null);
+    // const [data, setData] = useState(null);
 
     const News = styled.div`
         padding: 22px 99px;        
@@ -31,26 +31,64 @@ const News = () => {
         padding: 16px;
     `
 
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         const response = await axios.get(
+    //             `https://jsonplaceholder.typicode.com/posts`
+    //         );
+    //     setData(response.data);
+    //     };
+    //     getData();
+
+    // }, []);
+
+    const [data, setData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1)
+    const [fetching, setFetching] = useState(true)
+
+    // const getData = async () => {
+    //     const fetchData = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=10`)
+    //     const jsonData = await fetchData.json()
+    //     setData(jsonData)
+    //     setCurrentPage(prev => prev + 1)
+    // }
+
     useEffect(() => {
-        const getData = async () => {
-            const response = await axios.get(
-                `https://jsonplaceholder.typicode.com/posts?_limit=8`
-            );
-        setData(response.data);
-        };
-        getData();
-
-    }, []);
-
-    console.log(data)
-
+        if(fetching) {
+            console.log('fetching')
+            axios.get(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=10`)
+            .then(response => {
+                setData([...data, ...response.data])
+                setCurrentPage(prev => prev + 1)
+            })
+            .finally(() => setFetching(false))
+        }
+    }, [fetching])
     
+
+
+    useEffect(() => {
+        document.addEventListener('scroll', scrollHandler)
+        return function () {
+            document.removeEventListener('scroll', scrollHandler)
+        }
+    }, [])
+
+    const scrollHandler = (e) => {
+        if(e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100){
+            setFetching(true)
+        }
+    }
+
+
+
+
 
     return (
         <News>
             <h1 style={{fontWeight:'500', fontSize:'24px',marginBottom:'18px'}}>Новости</h1>
-
-            <ul>
+            {data.length ? (
+                <ul data={data}>
                 {data && data.map(({ id, title,body }) => (
                 <NewsItem key={id}>
                     <Article>
@@ -60,10 +98,9 @@ const News = () => {
                     <img src={newsImg} alt="img" />
                 </NewsItem>
                 ))}
-            </ul>
-            
-            
-            
+            </ul> 
+            ) : null}
+        
         </News>
     );
 };

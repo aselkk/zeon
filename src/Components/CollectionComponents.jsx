@@ -72,7 +72,9 @@ const CollectionComponents = () => {
         getCollections()
     }, [limit])
     
-    
+    const handleClick = () => {
+        setLimit(limit+4)
+    }
 
     return (
         <Wrapper>
@@ -91,7 +93,7 @@ const CollectionComponents = () => {
                 )) : <div>Данные грузятся...</div>}
         </Container>
             <button style={{color: 'white', background: 'black', border: 'none', padding: '8px 38px', marginTop: '16px', cursor: 'pointer'}}
-            onClick={()=>setLimit(limit+4)} >Еще</button>
+            onClick={handleClick}>Еще</button>
         </Wrapper>
     );
 };

@@ -4,6 +4,8 @@ import {useParams} from 'react-router'
 import cartIcon from '../../assets/img/cart/cartIcon.png'
 import fav from '../../assets/img/cart/fav.png'
 import favorite from '../../assets/img/cart/favorite.png'
+import SimilarProd from '../../Components/SimilarProd'
+import {Link} from 'react-router-dom'
 
 const Wrapper = styled.div `
     padding: 22px 99px;        
@@ -93,8 +95,11 @@ const Images = styled.div`
 `
 
 const Product = () => {
+
     const params = useParams()
     const [data, setData] = useState({});
+    const [cartPage, setCartPage] = useState([]);
+    const [favorite, setFavorite] = useState([])
     let idProd = params.product
     const id = params.id
     //Id  коллекции
@@ -110,6 +115,61 @@ const Product = () => {
     useEffect(() => {
         getProduct()
     }, [])
+
+    useEffect(() => {
+        let cartItem = JSON.parse(localStorage.getItem("cartItem"));
+        cartItem?.map((id) => {
+            if (id.id === data.id) {
+            setCartPage(true);
+            }
+        });
+    }, [cartPage, data]);
+
+    
+        function putProducts(data) {
+            let cartItem = JSON.parse(localStorage.getItem("cartItem"));
+        
+            if (!cartItem) {
+                cartItem = []
+                localStorage.setItem("cartItem", JSON.stringify(cartItem));
+                return;
+            }
+            for (let i = 0; i < cartItem.length; i++) {
+                if (cartItem[i].id === data.id) {
+                setCartPage(false);
+                return;
+                }
+            }
+            cartItem.push(data);
+            setCartPage(true);
+            localStorage.setItem("cartItem", JSON.stringify(cartItem));
+            return;
+        }
+
+        function favorites(product) {
+            let favorite = JSON.parse(localStorage.getItem("favorite"));
+            console.log(product)
+            
+            if (!favorite) {
+                favorite = [product];
+                localStorage.setItem("favorite", JSON.stringify(favorite));
+                return;
+            }
+            for (let i = 0; i < favorite.length; i++) {
+                if (favorite[i].id === product.id) {
+                    setFavorite(false);
+                    favorite.splice(i, 1);
+                    localStorage.setItem("favorite", JSON.stringify(favorite));
+                    setFavorite(false)
+                    return;
+            }
+            }
+            favorite.push(product);
+            setFavorite(true);
+            localStorage.setItem("favorite", JSON.stringify(favorite));
+            return;
+        }
+
     return (
         <Wrapper>
         {
@@ -146,19 +206,23 @@ const Product = () => {
                         </div>
                     </div>
                     <div style={{display:'flex', marginTop:'28px'}}>
-                        <AddToCart>
+                        <AddToCart onClick={()=>putProducts(data)}>
                             <img style={{paddingRight:'11px'}} src={cartIcon} alt="" />
-                            Добавить в корзину
+                            {cartPage !== true ? 'Добавить в корзину' : <Link to={'/cart'} style={{textDecoration:'none', color:'white'}}> Перейти в корзину</Link>}
                         </AddToCart>
-                        <AddToFav>  
+                        <AddToFav onClick={()=> favorites(data)}>
                             <img src={fav} alt=""/>
                         </AddToFav>
                     </div>
                 </ProductInfo>
             </Container>
         }
+        <div>
+            
+        </div>
+        <SimilarProd dataItem={data} item={data}/>
         </Wrapper>
     );
 };
 
-export default Product;
+export default Product; 

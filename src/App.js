@@ -26,7 +26,7 @@ function App() {
   }
 
   return (
-    <div className="app" style={{display:'flex', flexDirection:'column', minHeight:'100vh'}}>
+    <div className="app">
         <Navbar searchValue={searchValue} setSearchValue={handleChange} setSearchResult={setSearchResult} searchResult={searchResult}/>
             <Routes>
                 <Route exact path='/' element={<Home/>}/>

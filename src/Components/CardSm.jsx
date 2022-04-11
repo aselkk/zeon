@@ -24,7 +24,7 @@ const Card = styled.div`
     position:relative;
 `
 const Image = styled.img`
-    width: 286px;
+    width: 226px;
     position:relative;
 `
 const CardInfo = styled.div`
@@ -115,7 +115,7 @@ const HeartFilled = styled(Heart)`
     top: 12px;
 `
 
-const CardItem = ({item}) => {   
+const CardItemSm = ({item}) => {   
         const [likepage, setLikePage] = useState([]);
 
     useEffect(() => {
@@ -163,6 +163,7 @@ const CardItem = ({item}) => {
                 </div>
                 <NavItem key={item.id} style={{textDecoration:'none'}} to={`/collection/1/product/`+item.id}>
                 <Swiper
+                    style={{width:' 226px', height: 'auto'}}
                     id='swiper'   
                     modules={[Scrollbar, A11y, Autoplay]}
                     spaceBetween={50}
@@ -177,8 +178,8 @@ const CardItem = ({item}) => {
                     ))}
                 </Swiper>
                 <CardInfo>
+                <Price><span style={{color:'#979797', textDecoration:'line-through', paddingRight:'3px'}}>{item.oldPrice} p</span>{item.price}  p</Price>
                     <Title>{item.title}</Title>
-                    <Price><span style={{color:'#979797', textDecoration:'line-through', paddingRight:'3px'}}>{item.oldPrice} p</span>{item.price}  p</Price>
                     <Size>Размер: {item.size}</Size>
                     <div style={{display:'flex'}}> 
                         {item.color.map(color => (
@@ -192,4 +193,4 @@ const CardItem = ({item}) => {
     );
 };
 
-export default CardItem;
+export default CardItemSm;

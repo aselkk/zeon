@@ -1,8 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
-import About1 from '../assets/img/about-img/about1.png'
-import About2 from '../assets/img/about-img/about2.png'
-import About3 from '../assets/img/about-img/about3.png'
 
 const AboutUs = styled.section `
     padding: 22px 99px;
@@ -34,29 +31,32 @@ const AboutParagraph = styled.p `
 `
 
 const About = () => {
+    const [data, setData] = useState([]);
+
+    const getData = async () => {
+        const fetchData = await fetch('https://623c659f8e9af58789508891.mockapi.io/zeon')
+        const jsonData = await fetchData.json()
+        setData(jsonData[0].about)
+    }
+
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+
     return (
         <AboutUs>
             <AboutImg>
-                <img style={{paddingBottom: '24px'}} src={About1} alt="img" />
-                <img src={About2} alt="img" />
+                <img style={{paddingBottom: '24px'}} src={data.img1} alt="img" />
+                <img src={data.img2} alt="img" />
             </AboutImg>
             <AboutImg>
-                <img style={{padding: '24px'}} src={About3} alt="img" />
+                <img style={{padding: '24px'}} src={data.img3} alt="img" />
             </AboutImg>
             <AboutArticle>
-                <AboutHeader> О нас </AboutHeader>
-                <AboutParagraph>
-                    У нас Вы найдёте всё, что Вам так нужно. Ассортимент магазина постоянно расширяется и 
-                    дополняется в зависимости от пожеланий клиентов. Женская одежда из наших коллекций – это комфортная, 
-                    стильная и качественная одежда не только на каждый день, но и для любых ситуаций по доступным ценам.
-                    Натуральные материалы, продуманные силуэты, современный дизайн и возможность легкого сочетания моделей 
-                    помогут Вам всегда оставаться в центре внимания и чувствовать себя уместно в любой ситуации.
-                    Если Вы любите одеваться ярко, модно и оригинально, у нас Вы найдете все необходимое, чтобы всегда быть в центре внимания. 
-                    У нас большая коллекция для любого торжества и праздника, которая сможет удовлетворить вкус самой взыскательной модницы! 
-                    А для деловых ситуаций, в которых Вам непременно нужно выглядеть элегантно и стильно, мы предлагаем 
-                    Вам одежду из коллекции "деловой стиль и офис". Мода постоянно диктует нам свои требования и для современной девушки, 
-                    желающей идти в ногу со временем, важно иметь возможность постоянно пополнять свой гардероб стильной одеждой.
-                    </AboutParagraph>
+                <AboutHeader>{data.title}</AboutHeader>
+                <AboutParagraph>{data.text}</AboutParagraph>
             </AboutArticle>
         </AboutUs>
     );

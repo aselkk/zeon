@@ -10,6 +10,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import unfavorite from '../../assets/img/unfavorite.png'
+import ReactPaginate from 'react-paginate';
 
 const Container = styled.div`
     padding: 22px 99px;
@@ -97,31 +98,6 @@ const CollectionItem = () => {
         <Container> 
             {(data.data) ? data.data.map(item=>(
                 <CardItem item={item} key={item.id}/>
-                // <NavItem style={{textDecoration:'none'}} to={`/collection/${params.id}/product/`+item.id}>
-                //     <Card key={item.id}>
-                //         <Swiper
-                //         id='swiper'   
-                //         modules={[Scrollbar, A11y, Autoplay]}
-                //         spaceBetween={50}
-                //         autoplay={true}
-                //         scrollbar={{ draggable: true }}
-                //         >
-                //     {item.image.map(img=>( 
-                //         <SwiperSlide key={img.id}><Image src={img} alt="" /></SwiperSlide>
-                //     ))}
-                //         </Swiper>
-                //     <CardInfo>
-                //         <Title>{item.title}</Title>
-                //         <Price><span style={{color:'#979797', textDecoration:'line-through', paddingRight:'3px'}}>{item.oldPrice} p</span>{item.price}  p</Price>
-                //         <Size>Размер: {item.size}</Size>
-                //         <div style={{display:'flex'}}> 
-                //             {item.color.map(color => (
-                //                 <div style={{backgroundColor: color, height:"8px", width:'8px', borderRadius:'50%', marginRight:'10px'}}></div>
-                //         ))}
-                //         </div>   
-                //     </CardInfo>
-                // </Card>   
-                // </NavItem> 
             )) : <div>...</div>}
         </Container>
         </Wrapper>

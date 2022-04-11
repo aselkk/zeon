@@ -5,6 +5,7 @@ import minus from '../assets/img/cart/minus.png'
 import plus from '../assets/img/cart/plus.png'
 import deleteBtn from '../assets/img/cart/delete.png'
 import line from '../assets/img/cart/line.png'
+import { useState, useEffect } from 'react';
 
 const Container = styled.div `
     padding: 22px 99px;        
@@ -71,36 +72,67 @@ const OrderBtn = styled.button`
     font-family: 'Montserrat';
     cursor: pointer;
 `
+const H3 = styled.h3`
+    font-size: 16px;
+    font-weight: 400;
+    color:#393939;
+`
+
+const cartItem = JSON.parse(localStorage.getItem('cartItem'));
+
 
 const Cart = () => {
+
+    const [cartItem, setCartItem] = useState([])
+
+    useEffect(()=>{
+        setCartItem(JSON.parse(localStorage.getItem('cartItem')))
+    },[cartItem])
+
+    function del(product) {
+        for(let i = 0; i < cartItem.length; i++ ) {
+            if (cartItem[i].id == product) {
+                cartItem.splice(i, 1);
+                localStorage.setItem("cartItem", JSON.stringify(cartItem));
+                return;
+        }
+        }
+    }
+    
     return (
-        <Container>
-            <Products> 
-                <Item>
-                    <DeleteBtn><img style={{width: '14px', height: '14px'}} src={deleteBtn} alt="cart" /></DeleteBtn>
-                    <img style={{width: '112px', height: '142px'}} src={cart} alt="cart" />
-                    <Info>
-                        <h3 style={{fontWeight:'400', fontSize:"14px", marginBottom:'15px'}}>Вечернее платье</h3>
-                        <p style={{fontWeight:'400', fontSize:"13px", color:'#7C7C7C',marginBottom:'6px'}}>Размер: 42-50</p>
-                        <p style={{fontWeight:'400', fontSize:"13px", color:'#7C7C7C',marginBottom:'6px'}}>Цвет:</p>
-                        <p style={{fontWeight:'500', fontSize:"18px",marginBottom:'12px'}}>4900р</p>
-                        <Count>
-                            <img src={minus} alt="minus" /> <p style={{fontWeight:'600', fontSize:"16px", padding:'0 12px', display: 'flex', alignItems:'center'}}>1</p> <img src={plus} alt="plus" />
-                        </Count>
-                    </Info>
-                </Item>
-            </Products>
-            <Total>
-                <h3 style={{fontWeight:'500', fontSize:"14px",marginBottom:'16px'}}>Сумма заказа</h3>
-                <StyledP>Количество линеек:</StyledP>
-                <StyledP>Количество линеек:</StyledP>
-                <StyledP>Стоимость:</StyledP>
-                <StyledP>Скидка:</StyledP>
-                <img style={{margin:'24px 0', width:'100%'}} src={line} alt="" />
-                <StyledP style={{marginBottom:'16px'}}>Итого к оплате:</StyledP>
-                <OrderBtn>Оформить заказ</OrderBtn>
-            </Total>
-        </Container>
+        <div>
+            <Container>
+                <Products>
+                    {
+                        (cartItem) ? cartItem.map((item) => (
+                            <Item>
+                                <DeleteBtn onClick={()=>del(item.id)}><img style={{width: '14px', height: '14px'}} src={deleteBtn} alt="cart" /></DeleteBtn>
+                                <img style={{width: '112px', height: '142px'}} src={item.image[1]} alt="cart" />
+                                <Info>
+                                    <h3 style={{fontWeight:'400', fontSize:"14px", marginBottom:'15px'}}>{item.title}</h3>
+                                    <p style={{fontWeight:'400', fontSize:"13px", color:'#7C7C7C',marginBottom:'6px'}}>Размер: {item.size}</p>
+                                    <p style={{fontWeight:'400', fontSize:"13px", color:'#7C7C7C',marginBottom:'6px'}}>Цвет: {item.color}</p>
+                                    <p style={{fontWeight:'500', fontSize:"18px",marginBottom:'12px'}}>{item.price}</p>
+                                    <Count>
+                                        <img src={minus} alt="minus" /> <p style={{fontWeight:'600', fontSize:"16px", padding:'0 12px', display: 'flex', alignItems:'center'}}>1</p> <img src={plus} alt="plus" />
+                                    </Count>
+                                </Info>
+                            </Item>
+                        )) : <H3>Корзина пуста</H3>
+                    } 
+                </Products>
+                <Total>
+                    <h3 style={{fontWeight:'500', fontSize:"14px",marginBottom:'16px'}}>Сумма заказа</h3>
+                    <StyledP>Количество линеек:</StyledP>
+                    <StyledP>Количество линеек:</StyledP>
+                    <StyledP>Стоимость:</StyledP>
+                    <StyledP>Скидка:</StyledP>
+                    <img style={{margin:'24px 0', width:'100%'}} src={line} alt="" />
+                    <StyledP style={{marginBottom:'16px'}}>Итого к оплате:</StyledP>
+                    <OrderBtn>Оформить заказ</OrderBtn>
+                </Total>
+            </Container>
+        </div>
     );
 };
 

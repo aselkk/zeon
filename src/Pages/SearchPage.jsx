@@ -9,6 +9,7 @@ import 'swiper/css/scrollbar';
 import styled from 'styled-components'
 import {useParams} from 'react-router'
 import CardItem from '../Components/Card'
+import Suggestions from '../Components/Suggestions'
 
 
 const Card = styled.div`
@@ -45,9 +46,10 @@ const Color = styled.p`
 const Wrapper = styled.div `
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     flex-direction: column;
     background:#ECECEC;
+    padding: 22px 99px;
 
 `
 const Container = styled.div`
@@ -65,11 +67,22 @@ const NavItem = styled(NavLink)`
 `
 
 const Search = ({searchValue, searchResult}) => {
-    const params = useParams()
 
     console.log(searchValue)
     console.log(searchResult)
 
+
+    const [data, setData] = useState([]);
+
+    const getInteresting = async () => {
+        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products`)
+        const jsonData = await fetchData.json()
+        setData(jsonData)
+    }
+
+    useEffect(() => {
+        getInteresting()
+    }, [])
     return (
         // <div>
         //     {searchResult.map((item) => {
@@ -102,36 +115,17 @@ const Search = ({searchValue, searchResult}) => {
         //     }
         // </div>
         <Wrapper>
+            <h3 style={{fontWeight:'500', fontSize:'24px', color:'#393939'}}>Результаты поиска по запросу {searchValue}</h3>
         <Container> 
-            { (searchResult) ? searchResult.map(item=>(
-                <CardItem item={item} key={item.id}/>
-                // <NavItem style={{textDecoration:'none'}} to={`/collection/${params.id}/product/`+item.id}>
-                //     <Card key={item.id}>
-                //         <Swiper
-                //         id='swiper'   
-                //         modules={[Scrollbar, A11y, Autoplay]}
-                //         spaceBetween={50}
-                //         autoplay={true}
-                //         scrollbar={{ draggable: true }}
-                //         >
-                //     {item.image.map(img=>( 
-                //         <SwiperSlide key={img.id}><Image src={img} alt="" /></SwiperSlide>
-                //     ))}
-                //         </Swiper>
-                //     <CardInfo>
-                //         <Title>{item.title}</Title>
-                //         <Price><span style={{color:'#979797', textDecoration:'line-through', paddingRight:'3px'}}>{item.oldPrice} p</span>{item.price}  p</Price>
-                //         <Size>Размер: {item.size}</Size>
-                //         <div style={{display:'flex'}}> 
-                //             {item.color.map(color => (
-                //                 <div style={{backgroundColor: color, height:"8px", width:'8px', borderRadius:'50%', marginRight:'10px'}}></div>
-                //         ))}
-                //         </div>   
-                //     </CardInfo>
-                // </Card>   
-                // </NavItem> 
-            )) : <h1>по вашему запросу ничего не найдено</h1>}
+            { 
+                (searchResult !== []) ? searchResult.map(item=>(
+                        <CardItem item={item} key={item.id}/>
+                )) : <div>
+                        <p>По вашему запросу ничего не найдено</p>
+                    </div>
+            }
         </Container>
+        <Suggestions/>
         </Wrapper>
     );
 };

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState, useEffect} from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -35,9 +36,21 @@ export default function Help() {
         padding-left: 6px;
     `
 
+    const [data, setData] = useState([]);
+
+    const getData = async () => {
+        const fetchData = await fetch('https://623c659f8e9af58789508891.mockapi.io/zeon')
+        const jsonData = await fetchData.json()
+        setData(jsonData[0].help)
+    }
+
+    useEffect(() => {   
+        getData()
+    }, [])
+
     return (
         <Wrapper>
-            <img style={{height:'500px', width:'500px'}} src={help} alt="logo" />
+            <img style={{height:'500px', width:'500px'}} src={data.image} alt="logo" />
             <Container>
                 <h1 style={{fontWeight:'500', fontSize:'24px', marginBottom:'15px'}}>Помощь</h1>
             <Accordion style={{marginBottom:'12px', boxShadow:'none', borderRadius:'0'}}>
@@ -165,7 +178,7 @@ export default function Help() {
                 </Body>
                 </AccordionDetails>
             </Accordion>
-            </Container>
+            </Container> 
         </Wrapper>
     );
 }

@@ -100,64 +100,44 @@ const NavItem = styled(NavLink)`
 
 const Trending = () => {    
     const [data, setData] = useState([]);
+    const [limit, setLimit] = useState(8)
     const params = useParams()
 
     const getClassic = async () => {
-        const fetchData = await fetch('https://623c659f8e9af58789508891.mockapi.io/storage/1')
+        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products`)
         const jsonData = await fetchData.json()
         setData(jsonData)
     }
     
     useEffect(() => {
         getClassic()
-    }, [])
+    }, [limit])
     
+    const handleClick = () => {
+        setLimit(limit+4)
+    }
+
+    const hits = (data) ? data.filter((item)=> item.inHit === true) : null
+    
+    console.log(hits)
+    console.log(limit)
     return (
         <Wrapper>
-            <Collection>Хит продаж</Collection>
+            <Collection>Хит продаж</Collection> 
             <Container> 
-                {(data && data.data) ? data.data.slice(0, 8).map(item=>(
+                {hits?.slice(0, limit).map(item=>(
                     <div>
                         <Triangle>
                         </Triangle>
                         <Sale>{item.sale}%</Sale>
                         <CardItem item={item} key={item.id}/>
                     </div>
-                    
-                //     <NavItem key={item.id} style={{textDecoration:'none'}} to={`/collection/1/product/`+item.id}>
-                //         <Card key={item.id}>
-                //            
-                //             <Swiper
-                //             id='swiper'   
-                //             modules={[Scrollbar, A11y, Autoplay]}
-                //             spaceBetween={50}
-                //             autoplay={true}
-                //             scrollbar={{ draggable: true }}
-                //             >
-                //             {item.image.map(img=>( 
-                //             <SwiperSlide   SwiperSlide key={img.id}>
-                            
-                //             <Image src={img} alt="" />
-                //             </SwiperSlide>
-                //             ))}
-                //             </Swiper>
-                //     <CardInfo>
-                //         <Title>{item.title}</Title>
-                //         <Price><span style={{color:'#979797', textDecoration:'line-through', paddingRight:'3px'}}>{item.oldPrice} p</span>{item.price}  p</Price>
-                //         <Size>Размер: {item.size}</Size>
-                //         <div style={{display:'flex'}}> 
-                //             {item.color.map(color => (
-                //                 <div style={{backgroundColor: color, height:"8px", width:'8px', borderRadius:'50%', marginRight:'10px'}}></div>
-                //         ))}
-                //         </div>   
-                //     </CardInfo>
-                // </Card>   
-                //     </NavItem> 
-                )) : <div>Данные грузятся...</div>}
-        </Container>
-        <More>Еще</More>
+                ))}
+        </Container>    
+        <More onClick={handleClick}>{limit !== 16 ? "Еще" : 'Скрыть'}</More>
         </Wrapper>
     );
 };
+
 
 export default Trending;

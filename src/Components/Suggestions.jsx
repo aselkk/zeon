@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import CardItem from './Card'
+import CardItemSm from './CardSm'
 
 const Container = styled.div`
     display: flex;
@@ -24,7 +24,7 @@ const Wrapper = styled.div `
     margin: 44px 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     flex-direction: column;
 `
 const Triangle = styled.div`
@@ -48,30 +48,32 @@ const Sale = styled.p`
     font-weight: 500;
 }
 `
-const Interesting = () => {    
+const Suggestion = ({dataItem}) => {    
     const [data, setData] = useState([]);
     const params = useParams()
 
     const getInteresting = async () => {
-        const fetchData = await fetch('https://623c659f8e9af58789508891.mockapi.io/storage/3')
+        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products/`)
         const jsonData = await fetchData.json()
         setData(jsonData)
     }
-    
+
     useEffect(() => {
         getInteresting()
     }, [])
-    
+
+    console.log(data)
+
     return (
         <Wrapper>
-            <Collection>Возможно Вас заинтересует</Collection>
+            <Collection>Возможно вас заинтересует</Collection>
             <Container> 
-                {(data && data.data) ? data.data.slice(0, 4).map(item=>(
-                    <CardItem item={item} key={item.id}/>
+                {(data) ? data.slice(0, 5).map(item=>(
+                    <CardItemSm item={item} key={item.id}/> 
                 )) : <div>...</div>}
-        </Container>
+            </Container>
         </Wrapper>
     );
 };
 
-export default Interesting;
+export default Suggestion;

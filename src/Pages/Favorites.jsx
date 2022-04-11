@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import CardItem from '../Components/Card'
-import Interesting from '../Components/Interesting'
 import styled from 'styled-components'
+import CardItemSm from '../Components/CardSm'
+
 
 const Container = styled.div`
     padding: 22px 99px;
@@ -30,9 +31,20 @@ const H3 = styled.h3`
     color:#393939;
 `
 
-const favorites = JSON.parse(localStorage.getItem('favorite'));
 
 const Favorites = () => {
+
+    const [data, setData] = useState([]);
+
+    const getInteresting = async () => {
+        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products`)
+        const jsonData = await fetchData.json()
+        setData(jsonData)
+    }
+
+    useEffect(() => {
+        getInteresting()
+    }, [])
 
     const [favorites, setFavorites] = useState([])
 
@@ -48,10 +60,14 @@ const Favorites = () => {
                     <CardItem item={item} key={item.id}/>
                 )) : <div>
                         <H3>У Вас пока нет избранных товаров</H3>
-                        <Interesting/>
                     </div>
-                
             }
+            </Container>
+            <Collection>Возможно вас заинтересует</Collection>
+            <Container> 
+                {(data) ? data.slice(0, 5).map(item=>(
+                    <CardItemSm item={item} key={item.id}/> 
+                )) : <div>...</div>}
             </Container>
         </Wrapper>
     );

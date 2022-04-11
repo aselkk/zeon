@@ -1,5 +1,4 @@
-import React from 'react';
-import logoFooter from '../assets/img/footer-img/logoFooter.png'
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
 import phone from '../assets/img/footer-img/phone.png'
 import mail from '../assets/img/footer-img/mail.png'
@@ -8,7 +7,7 @@ import telegram from '../assets/img/footer-img/telegram.png'
 import whatsapp from '../assets/img/footer-img/whatsapp.png'
 import { Link } from "react-router-dom";
 
-const FooterWrap = styled.section`
+const Wrapper = styled.section`
     background: black;
     color: white;
     display: flex;
@@ -22,8 +21,7 @@ const Column = styled.div`
     display: flex; 
     flex-direction: column; 
 `
-
-const FooterH = styled.h3`
+const Title = styled.h3`
     font-weight: 600;
     font-size: 16px;
     margin-bottom: 18px;
@@ -38,7 +36,7 @@ const Copyright = styled.p`
 const Icon = styled.img `
     padding-right: 7px
 `
-    const StyledA = styled.a`
+const Info = styled.a`
     display: flex;
     align-items: center;
     font-weight: 400;
@@ -51,31 +49,47 @@ const Icon = styled.img `
 
 
 const Footer = () => {
+
+
+    const [data, setData] = useState([]);
+
+    const getData = async () => {
+        const fetchData = await fetch('https://623c659f8e9af58789508891.mockapi.io/zeon')
+        const jsonData = await fetchData.json()
+        setData(jsonData[0].info)
+    }
+
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+    console.log('')
     return (
-        <FooterWrap>
+        <Wrapper>
             <div>
-                <Link to='/'><img src={logoFooter} alt="img" /></Link>
+                <Link to='/'><img src={data.logo2} alt="img"/></Link>
                 <Copyright>Developed by Zeon 2022</Copyright>
             </div>
             <Column>
-                <FooterH>Компания</FooterH>
-                <StyledA href="/about"> О нас</StyledA>
-                <StyledA href="/news"> Новости</StyledA>
-                <StyledA href="/help">Помощь</StyledA>
+                <Title>Компания</Title>
+                <Info href="/about"> О нас</Info>
+                <Info href="/news"> Новости</Info>
+                <Info href="/help">Помощь</Info>
             </Column>
             <Column>
-                <FooterH>Контакты</FooterH>
-                <StyledA href="tel:+996707191199"> <Icon src={phone} alt="" />+996 707 191 199 </StyledA>
-                <StyledA href="tel:+996707191199"> <Icon src={phone} alt="" />+996 707 191 199 </StyledA>
-                <StyledA target="_blank" href="mailto:zeonithub@gmail.com"><Icon src={mail} alt="" />  mail@gmail.com</StyledA>
+                <Title>Контакты</Title>
+                <Info href="{data.phone1}"> <Icon src={phone} alt="" />{data.phone1}</Info>
+                <Info href="{data.phone2}"> <Icon src={phone} alt="" />{data.phone2}</Info>
+                <Info target="_blank" href="mailto:{data.mail}"><Icon src={mail} alt="" /> {data.mail}</Info>
             </Column>
             <Column>
-                <FooterH>Мы в социальных сетях:</FooterH>
-                <StyledA target="_blank" href="https://www.instagram.com/zeon.ithub/"><Icon src={instagram} alt="" /> Instagram</StyledA>
-                <StyledA target="_blank" href="https://t.me/Zeonitcommunity"><Icon src={telegram} alt="" /> Telegram</StyledA>
-                <StyledA target="_blank" href=" https://wa.me/996707191199"><Icon src={whatsapp} alt="" /> WhatsApp</StyledA>
+                <Title>Мы в социальных сетях:</Title>
+                <Info target="_blank" href={data.instagram}><Icon src={instagram} alt="" /> Instagram</Info>
+                <Info target="_blank" href={data.telegram}><Icon src={telegram} alt="" /> Telegram</Info>
+                <Info target="_blank" href={data.whatsapp}><Icon src={whatsapp} alt="" /> WhatsApp</Info>
             </Column>
-        </FooterWrap>
+        </Wrapper>
     );
 };
 

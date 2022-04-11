@@ -214,73 +214,40 @@ const NavItem = styled(NavLink)`
 
 const Arrivals = () => {    
     const [data, setData] = useState([]);
-    const params = useParams()
+    const [limit, setLimit] = useState(8)
 
     const getClassic = async () => {
-        const fetchData = await fetch('https://623c659f8e9af58789508891.mockapi.io/storage/3')
+        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products`)
         const jsonData = await fetchData.json()
         setData(jsonData)
     }
     
     useEffect(() => {
         getClassic()
-    }, [])
+    }, [limit])
     
+    const handleClick = () => {
+        setLimit(limit+4)
+    }
+
+    const arrivals = (data) ? data.filter((item)=> item.isNew === true) : null
+    
+    console.log(arrivals)
+    console.log(limit)
     return (
         <Wrapper>
             <Collection>Новинки</Collection>
             <Container> 
-                {(data && data.data) ? data.data.slice(0, 4).map(item=>(
-                    <CardItem item={item} key={item.id}/>
-                //     <NavItem style={{textDecoration:'none'}} to={`/collection/2/product/`+item.id}>
-                //         {/* <Card key={item.id}>
-                //         <Triangle>
-                //         </Triangle>
-                //         <Sale>{item.sale}%</Sale>
-                //         <Image src={item.image} alt="" />
-                //         <CardInfo>
-                //             <Title>{item.title}</Title>
-                //             <Price>{item.price} p</Price>
-                //             <Size>Размер: {item.size}</Size>
-                //             <div style={{display:'flex'}}> 
-                //             {item.color.map(color => (
-                //                 <div style={{backgroundColor: color, height:"8px", width:'8px', borderRadius:'50%', marginRight:'10px'}}></div>
-                //             ))}
-                //             </div>
-                //         </CardInfo>
-                //     </Card>    */}
-                //      <Card key={item.id}>
-                //         <Swiper
-                //          id='swiper'   
-                //          modules={[Scrollbar, A11y, Autoplay]}
-                //          spaceBetween={50}
-                //          autoplay={true}
-                //          scrollbar={{ draggable: true }}
-                //        >
-                //     {item.image.map(img=>( 
-                //          <SwiperSlid key={img.id}>
-                //              <Triangle>
-                //              </Triangle>
-                //              <Sale>{item.sale}%</Sale>
-                //              <Image src={img} alt="" />
-                //              </SwiperSlid
-                //     ))}
-                //       </Swiper>
-                //     <CardInfo>
-                //         <Title>{item.title}</Title>
-                //         <Price><span style={{color:'#979797', textDecoration:'line-through', paddingRight:'3px'}}>{item.oldPrice} p</span>{item.price}  p</Price>
-                //         <Size>Размер: {item.size}</Size>
-                //         <div style={{display:'flex'}}> 
-                //             {item.color.map(color => (
-                //                 <div style={{backgroundColor: color, height:"8px", width:'8px', borderRadius:'50%', marginRight:'10px'}}></div>
-                //         ))}
-                //         </div>   
-                //     </CardInfo>
-                // </Card>   
-                //     </NavItem> 
-                )) : <div>Данные грузятся...</div>}
-        </Container>
-        <More>Еще</More>
+                {arrivals?.slice(0, limit).map(item=>(
+                    <div>
+                        <Triangle>
+                        </Triangle>
+                        <Sale>{item.sale}%</Sale>
+                        <CardItem item={item} key={item.id}/>
+                    </div>
+                ))}
+        </Container>    
+        <More onClick={handleClick}>{limit !== 16 ? "Еще" : 'Скрыть'}</More>
         </Wrapper>
     );
 };

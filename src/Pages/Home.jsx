@@ -5,6 +5,7 @@ import Trending from '../Components/Trending'
 import Arrivals from '../Components/Arrivals';
 import CollectionsList from './Collections/CollectionsList';
 import CollectionComponents from '../Components/CollectionComponents';
+import Offer from './Offer'
 
 const Home = () => {
     return (
