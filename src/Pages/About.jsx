@@ -39,11 +39,9 @@ const About = () => {
         setData(jsonData[0].about)
     }
 
-
     useEffect(() => {
         getData()
     }, [])
-
 
     return (
         <AboutUs>

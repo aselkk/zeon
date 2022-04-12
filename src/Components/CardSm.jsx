@@ -10,13 +10,6 @@ import 'swiper/css/scrollbar';
 import {HeartOutlined} from '@styled-icons/entypo/HeartOutlined'
 import {Heart} from '@styled-icons/entypo/Heart'
 
-const Container = styled.div`
-    padding: 22px 99px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    color: #393939;
-`
 const Card = styled.div`
     display: flex;
     flex-direction: column;
@@ -46,49 +39,6 @@ const Size = styled.p`
     font-size: 13px;
     color: #7C7C7C;
     margin-bottom: 6px
-`
-const Color = styled.p` 
-`
-const Collection = styled.h2`
-    font-weight: 500;
-    font-size: 24px;
-    
-`
-const More = styled.button`
-    color: white;
-    background: black;
-    border: none;
-    padding: 8px 38px;
-    margin-top: 16px;
-    cursor: pointer;
-`
-const Wrapper = styled.div `
-    margin: 44px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-`
-const Triangle = styled.div`
-    position: absolute;
-    display: inline-block;
-    z-index: 10;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 50px 50px 0 0;
-    border-color: #E5271B transparent transparent transparent;
-`
-const Sale = styled.p`
-    z-index: 99;
-    position: absolute;
-    padding-top: 9px;
-    offset-rotate: 19px;
-    font-size: 12px;
-    color: white;
-    transform: rotate(318deg);
-    font-weight: 500;
-}
 `
 const NavItem = styled(NavLink)`
     text-decoration:none;
@@ -154,9 +104,6 @@ const CardItemSm = ({item}) => {
                 <div
                     onClick={()=>putProducts(item)}
                     key={item.id}>
-                        {/* {!isFavorites.includes(item.id) ? 
-                        <HeartIcon style={{color:'white'}} key={item.id}/> : 
-                        <HeartFilled style={{color:'red'}} key={item.id}/> } */}
                         {likepage !== true ? 
                         <HeartIcon key={item.id}/> : 
                         <HeartFilled  key={item.id}/>}

@@ -4,13 +4,7 @@ import { useState, useEffect } from 'react';
 import newsImg from '../assets/img/newsImg.png'
 import styled from 'styled-components'
 
-
-
-
-
 const News = () => {
-
-    // const [data, setData] = useState(null);
 
     const News = styled.div`
         padding: 22px 99px;        
@@ -31,28 +25,9 @@ const News = () => {
         padding: 16px;
     `
 
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         const response = await axios.get(
-    //             `https://jsonplaceholder.typicode.com/posts`
-    //         );
-    //     setData(response.data);
-    //     };
-    //     getData();
-
-    // }, []);
-
     const [data, setData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1)
     const [fetching, setFetching] = useState(true)
-
-    // const getData = async () => {
-    //     const fetchData = await fetch(`https://jsonplaceholder.typicode.com/posts?_page=${currentPage}&_limit=10`)
-    //     const jsonData = await fetchData.json()
-    //     setData(jsonData)
-    //     setCurrentPage(prev => prev + 1)
-    // }
-
     useEffect(() => {
         if(fetching) {
             console.log('fetching')
@@ -79,10 +54,6 @@ const News = () => {
             setFetching(true)
         }
     }
-
-
-
-
 
     return (
         <News>

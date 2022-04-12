@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import {useParams} from 'react-router'
 import cartIcon from '../../assets/img/cart/cartIcon.png'
 import fav from '../../assets/img/cart/fav.png'
-import favorite from '../../assets/img/cart/favorite.png'
 import SimilarProd from '../../Components/SimilarProd'
 import {Link} from 'react-router-dom'
 

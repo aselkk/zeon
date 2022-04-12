@@ -53,7 +53,7 @@ const Wrapper = styled.div `
 
 `
 const Container = styled.div`
-    padding: 22px 99px;
+    padding: 22px 0px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -84,38 +84,8 @@ const Search = ({searchValue, searchResult}) => {
         getInteresting()
     }, [])
     return (
-        // <div>
-        //     {searchResult.map((item) => {
-        //         return (
-        //             <Card key={item.id}>
-        //                 <Swiper
-        //                 id='swiper'   
-        //                 modules={[Scrollbar, A11y, Autoplay]}
-        //                 spaceBetween={50}
-        //                 autoplay={true}
-        //                 scrollbar={{ draggable: true }}
-        //                 >
-        //             {item.image.map(img=>( 
-        //                 <SwiperSlide key={img.id}><Image src={img} alt="" /></SwiperSlide>
-        //             ))}
-        //                 </Swiper>
-        //             <CardInfo>
-        //                 <Title>{item.title}</Title>
-        //                 <Price><span style={{color:'#979797', textDecoration:'line-through', paddingRight:'3px'}}>{item.oldPrice} p</span>{item.price}  p</Price>
-        //                 <Size>Размер: {item.size}</Size>
-        //                 <div style={{display:'flex'}}> 
-        //                     {item.color.map(color => (
-        //                         <div style={{backgroundColor: color, height:"8px", width:'8px', borderRadius:'50%', marginRight:'10px'}}></div>
-        //                     ))}
-        //                 </div>   
-        //             </CardInfo>
-        //         </Card>
-        //         )
-        //     })
-        //     }
-        // </div>
         <Wrapper>
-            <h3 style={{fontWeight:'500', fontSize:'24px', color:'#393939'}}>Результаты поиска по запросу {searchValue}</h3>
+            <h3 style={{fontWeight:'500', fontSize:'24px', color:'#393939'}}>Результаты поиска по запросу: {searchValue}</h3>
         <Container> 
             { 
                 (searchResult !== []) ? searchResult.map(item=>(

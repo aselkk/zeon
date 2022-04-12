@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import {useParams} from 'react-router'
 
 
+
 const NavItem = styled(NavLink) `
     display: flex; 
     justify-content: space between;
@@ -14,8 +15,6 @@ const NavItem = styled(NavLink) `
     text-decoration: none;
     &:hover {color:gray};
     border-top: 1px solid #d3d3d3;
-    
-
 `
 const Results = styled.div`
     position: absolute;
@@ -56,11 +55,7 @@ const Input = styled.input `
 `
 
 const SearchBar = ({searchValue, setSearchValue, setSearchResult, searchResult  }) => {
-
-    // const [searchResult, setSearchResult] = useState([])
-    // const [inputValue, setInputValue] = useState('')
     const params = useParams()
-
 
     const getInputValue = (e) => {
         setSearchValue(e.target.value)
@@ -72,20 +67,32 @@ const SearchBar = ({searchValue, setSearchValue, setSearchResult, searchResult  
         const jsonData = await fetchData.json()
         setSearchResult(jsonData)
     }
+    
+    const [isOpen, setIsOpen] = useState(true)
+    const toggle = () => {
+        setIsOpen(!isOpen)
+    }
+    const handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+            setIsOpen(false)
+        }  
+        
+    }
 
     return (
             <SearchContainer>
                 <Input 
                     placeholder='Поиск'
                     onKeyUp={getInputValue}
+                    onKeyPress={handleKeyPress}
                 />
-                <Results>
+                <Results style={{ visibility: isOpen ? 'visible': 'hidden'}}> 
                     {
                         searchResult.slice(0,4).map((item) => {
                             return (
                                 <List>
                                     <NavItem to={`/collection/${params.id}/product/`+item.id}>
-                                        <Items>{item.title}</Items>
+                                        <Items onClick={toggle}>{item.title} </Items>
                                     </NavItem>
                                 </List>
                             )
@@ -93,7 +100,7 @@ const SearchBar = ({searchValue, setSearchValue, setSearchResult, searchResult  
                     }
                 </Results>
                 <NavItem style={{border:'none'}} to='/search'> 
-                    <button style={{border:'none',background: '#f8f8f8', cursor:'pointer', height: '42px'}}>
+                    <button onClick={toggle} style={{border:'none',background: '#f8f8f8', cursor:'pointer', height: '42px'}}>
                         <img style={{padding: '13px'}} src={searchLogo} alt="searchLogo"/>
                     </button> 
                 </NavItem>

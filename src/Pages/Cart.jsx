@@ -38,7 +38,7 @@ const Count = styled.div`
     display: flex;
     flex-direction: row;
 `
-const Total = styled.div`
+const Order = styled.div`
     width: 384px;
     height: 311px;
     background: white;
@@ -54,7 +54,7 @@ const DeleteBtn = styled.button`
     border: none;
     cursor: pointer;
 `
-const StyledP = styled.p`
+const Total = styled.p`
     font-weight: 400;
     font-size: 14px;
     color: #979797;
@@ -78,25 +78,58 @@ const H3 = styled.h3`
     color:#393939;
 `
 
-const cartItem = JSON.parse(localStorage.getItem('cartItem'));
-
-
 const Cart = () => {
 
     const [cartItem, setCartItem] = useState([])
+    const [count, setCount] = useState(1)
+    const [cart, setCart] = useState([])
+    
 
-    useEffect(()=>{
-        setCartItem(JSON.parse(localStorage.getItem('cartItem')))
-    },[cartItem])
+    // useEffect(()=>{
+    //     setCartItem(JSON.parse(localStorage.getItem('cartItem')))
+    // },[cartItem])
+
+    const [loaded, setLoaded] = useState(false)
+    useEffect(() => {
+        if (loaded) return ;
+            setCartItem(JSON.parse(localStorage.getItem('cartItem')))
+        setLoaded(true)
+    }, [loaded])
 
     function del(product) {
         for(let i = 0; i < cartItem.length; i++ ) {
             if (cartItem[i].id == product) {
                 cartItem.splice(i, 1);
                 localStorage.setItem("cartItem", JSON.stringify(cartItem));
+                setLoaded(false)
                 return;
         }
         }
+    }
+
+    
+    const add = () => { 
+        setCount(prev => prev + 1)    
+    }
+
+    const remove = (cardId) => {
+        cartItem.map(cart => {
+            cart?.map(item => {
+                if(cardId === item.id){
+                    setCount(prev => prev - 1)
+                }
+            })
+        })
+        setCartItem(cart => 
+            cart.map((item) => {
+                if(cardId === item.id) {
+                    setCartItem(...cartItem)
+                    setCount(prev => prev - 1)
+                }
+                    
+            }))
+        console.log(cardId)
+        console.log(cartItem)
     }
     
     return (
@@ -105,32 +138,39 @@ const Cart = () => {
                 <Products>
                     {
                         (cartItem) ? cartItem.map((item) => (
-                            <Item>
-                                <DeleteBtn onClick={()=>del(item.id)}><img style={{width: '14px', height: '14px'}} src={deleteBtn} alt="cart" /></DeleteBtn>
+                            <Item key={item.id}>
+                                <DeleteBtn onClick={()=>del(item.id)}>
+                                    <img style={{width: '14px', height: '14px'}} src={deleteBtn} alt="cart" />
+                                </DeleteBtn>
                                 <img style={{width: '112px', height: '142px'}} src={item.image[1]} alt="cart" />
                                 <Info>
                                     <h3 style={{fontWeight:'400', fontSize:"14px", marginBottom:'15px'}}>{item.title}</h3>
                                     <p style={{fontWeight:'400', fontSize:"13px", color:'#7C7C7C',marginBottom:'6px'}}>Размер: {item.size}</p>
-                                    <p style={{fontWeight:'400', fontSize:"13px", color:'#7C7C7C',marginBottom:'6px'}}>Цвет: {item.color}</p>
-                                    <p style={{fontWeight:'500', fontSize:"18px",marginBottom:'12px'}}>{item.price}</p>
+                                    <p style={{fontWeight:'400', fontSize:"13px", color:'#7C7C7C',marginBottom:'6px', display: 'flex', alignItems:'center'}}>Цвет:<span style={{display:'flex', alignItems:'center', paddingLeft:'6px'}}> 
+                                        {item.color.map(color => (
+                                            <span style={{backgroundColor: color, height:"8px", width:'8px', borderRadius:'50%', marginRight:'16px',}}></span>
+                                        ))}
+                                            </span>
+                                    </p>
+                                    <p style={{fontWeight:'500', fontSize:"18px",marginBottom:'12px'}}>{item.price} p</p>
                                     <Count>
-                                        <img src={minus} alt="minus" /> <p style={{fontWeight:'600', fontSize:"16px", padding:'0 12px', display: 'flex', alignItems:'center'}}>1</p> <img src={plus} alt="plus" />
+                                        <img onClick={count > 1 ? ()=>remove(item.id) : null} src={minus} alt="minus" style={{ cursor:'pointer'}}/> <p style={{fontWeight:'600', fontSize:"16px", padding:'0 12px', display: 'flex', alignItems:'center'}}>{count}</p> <img onClick={add} src={plus} alt="plus"style={{ cursor:'pointer'}} />
                                     </Count>
                                 </Info>
                             </Item>
                         )) : <H3>Корзина пуста</H3>
                     } 
                 </Products>
-                <Total>
+                <Order>
                     <h3 style={{fontWeight:'500', fontSize:"14px",marginBottom:'16px'}}>Сумма заказа</h3>
-                    <StyledP>Количество линеек:</StyledP>
-                    <StyledP>Количество линеек:</StyledP>
-                    <StyledP>Стоимость:</StyledP>
-                    <StyledP>Скидка:</StyledP>
+                    <Total>Количество линеек:</Total>
+                    <Total>Количество товаров:</Total>
+                    <Total>Стоимость:</Total>
+                    <Total>Скидка:</Total>
                     <img style={{margin:'24px 0', width:'100%'}} src={line} alt="" />
-                    <StyledP style={{marginBottom:'16px'}}>Итого к оплате:</StyledP>
+                    <Total style={{marginBottom:'16px'}}>Итого к оплате:</Total>
                     <OrderBtn>Оформить заказ</OrderBtn>
-                </Total>
+                </Order>
             </Container>
         </div>
     );

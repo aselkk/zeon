@@ -50,7 +50,6 @@ const Info = styled.a`
 
 const Footer = () => {
 
-
     const [data, setData] = useState([]);
 
     const getData = async () => {

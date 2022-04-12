@@ -1,9 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
 import {useParams} from 'react-router'
-import { NavLink } from "react-router-dom";
-import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -17,38 +14,6 @@ const Container = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     color: #393939;
-`
-const Card = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 0 8px 8px 0;
-`
-const Image = styled.img`
-    width: 286px;
-    position:relative;
-
-`
-const CardInfo = styled.div`
-    background: white;
-    padding: 6px 8px;
-`
-const Title = styled.p`
-    font-weight: 400;
-    font-size: 14px;
-    margin-bottom: 6px
-`
-const Price = styled.p`
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 6px
-`
-const Size = styled.p`
-    font-weight: 400;
-    font-size: 13px;
-    color: #7C7C7C;
-    margin-bottom: 6px
-`
-const Color = styled.p` 
 `
 const Collection = styled.h2`
     font-weight: 500;
@@ -91,16 +56,11 @@ const Sale = styled.p`
     font-weight: 500;
 }
 `
-const NavItem = styled(NavLink)`
-    text-decoration:none;
-    &:visited,&:link {
-    color: #393939;
-}`
-
 
 const Trending = () => {    
     const [data, setData] = useState([]);
     const [limit, setLimit] = useState(8)
+    const [showMore, setShowMore] = useState(false)
     const params = useParams()
 
     const getClassic = async () => {
@@ -111,10 +71,11 @@ const Trending = () => {
     
     useEffect(() => {
         getClassic()
-    }, [limit])
+    }, [showMore])
     
     const handleClick = () => {
-        setLimit(limit+4)
+        // setLimit(limit+4)
+        setShowMore(!showMore)
     }
 
     const hits = (data) ? data.filter((item)=> item.inHit === true) : null
@@ -125,7 +86,7 @@ const Trending = () => {
         <Wrapper>
             <Collection>Хит продаж</Collection> 
             <Container> 
-                {hits?.slice(0, limit).map(item=>(
+                {hits?.slice(0, showMore ? 16 : 8).map(item=>(
                     <div>
                         <Triangle>
                         </Triangle>
@@ -134,7 +95,7 @@ const Trending = () => {
                     </div>
                 ))}
         </Container>    
-        <More onClick={handleClick}>{limit !== 16 ? "Еще" : 'Скрыть'}</More>
+        <More onClick={handleClick}>{!showMore ? "Еще" : 'Скрыть'}</More>
         </Wrapper>
     );
 };

@@ -7,8 +7,6 @@ import cart from '../assets/img/cart.png'
 import { NavLink } from "react-router-dom";
 import SearchBar from './SearchBar';
 
-
-
 const Nav = styled.div `
     height: 153px; 
 `
@@ -38,57 +36,10 @@ const Bottom = styled.div `
     align-items: center;
     margin-top: 30px;
 `
-const SearchContainer = styled.div `
-    display: flex; 
-    align-items: center; 
-    height: 44px;
-    width: 662px;
-    border: 1px solid #E0E0E0;  
-    background-color: #F8F8F8;
-    position: relative
-
-`
-const Input = styled.input `
-    height: 44px;
-    width: 100%;
-    border:none;
-    background: #f8f8f8;
-    font-size: 16px;
-    font-family: 'Montserrat';
-    padding-left: 22px; 
-    &:focus {outline:none}
-
-`
-const FavCart = styled.div `
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-`
-const StyledA = styled.a`
+const Link = styled.a`
 line-height: 17px;
 text-decoration: none;
 &:visited,&:link { color: black}
-`
-const Results = styled.div`
-    position: absolute;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    top: 45px;
-    border: 1px solid #D3D3D3;
-    z-index: 5;
-`
-const List = styled.ul`
-`
-const Items = styled.li`
-    padding: 16px 0;
-    list-style: none;
-    margin: 0 24px;
-    border-top: 1px solid #d3d3d3;
-    &:first-child {
-        border: none;
-    }
 `
 
 const Navbar = ({searchValue, setSearchValue, setSearchResult,searchResult}) => {
@@ -102,7 +53,7 @@ const Navbar = ({searchValue, setSearchValue, setSearchResult,searchResult}) => 
                         <NavItem to='/news' style={{marginLeft: '24px'}}> Новости </NavItem>
                     </TopLeft>
                     <TopRight>
-                        <p> <span style={{color:'#979797'}}> Тел: </span><StyledA style={{textDecoration:'none', }} href="tel:+996707191199">+996 707 191 199 </StyledA></p>
+                        <p> <span style={{color:'#979797'}}> Тел: </span><Link style={{textDecoration:'none', }} href="tel:+996707191199">+996 707 191 199 </Link></p>
                     </TopRight>
                 </Top>
                     <Bottom>

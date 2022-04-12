@@ -19,48 +19,9 @@ const Container = styled.div`
     justify-content: center;
     color: #393939;
 `
-const Card = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 0 8px 8px 0;
-    position: relative;
-`
-const Image = styled.img`
-    width: 286px;
-`
-const CardInfo = styled.div`
-    background: white;
-    padding: 6px 8px;
-`
-const Title = styled.p`
-    font-weight: 400;
-    font-size: 14px;
-    margin-bottom: 6px
-`
-const Price = styled.p`
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 6px
-`
-const Size = styled.p`
-    font-weight: 400;
-    font-size: 13px;
-    color: #7C7C7C;
-    margin-bottom: 6px
-`
-const Color = styled.p` 
-`
 const Collection = styled.h2`
     font-weight: 500;
     font-size: 24px;
-`
-const More = styled.button`
-    color: white;
-    background: black;
-    border: none;
-    padding: 8px 38px;
-    margin-top: 16px;
-    cursor: pointer;
 `
 const Wrapper = styled.div `
     display: flex;
@@ -69,12 +30,6 @@ const Wrapper = styled.div `
     flex-direction: column;
     background:#ECECEC;
 
-`
-const NavItem = styled(NavLink)`
-    text-decoration:none;
-    &:visited,&:link {
-        color: #393939;
-}
 `
 
 
