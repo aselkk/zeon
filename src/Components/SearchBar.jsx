@@ -4,56 +4,6 @@ import searchLogo from '../assets/img/searchLogo.png'
 import { NavLink } from "react-router-dom";
 import {useParams} from 'react-router'
 
-
-
-const NavItem = styled(NavLink) `
-    display: flex; 
-    justify-content: space between;
-    font-weight: 400;
-    font-size: 17px;
-    &:visited,&:link { color: black}
-    text-decoration: none;
-    &:hover {color:gray};
-    border-top: 1px solid #d3d3d3;
-`
-const Results = styled.div`
-    position: absolute;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    top: 45px;  
-    border: 1px solid #D3D3D3;
-    z-index: 5;
-    border-top: none;
-`
-const List = styled.ul`
-`
-const Items = styled.li`
-    padding: 16px 0;
-    list-style: none;
-    margin: 0 24px;
-`
-const SearchContainer = styled.div `
-    display: flex; 
-    align-items: center; 
-    width: 662px;
-    border: 1px solid #E0E0E0;  
-    background-color: #F8F8F8;
-    position: relative
-
-`
-const Input = styled.input `
-    height: 45px;
-    width: 100%;
-    border:none;
-    background: #f8f8f8;
-    font-size: 16px;
-    font-family: 'Montserrat';
-    padding-left: 22px; 
-    &:focus {outline:none}
-`
-
 const SearchBar = ({searchValue, setSearchValue, setSearchResult, searchResult  }) => {
     const params = useParams()
 
@@ -109,3 +59,51 @@ const SearchBar = ({searchValue, setSearchValue, setSearchResult, searchResult  
 };
 
 export default SearchBar;
+
+const NavItem = styled(NavLink) `
+    display: flex; 
+    justify-content: space between;
+    font-weight: 400;
+    font-size: 17px;
+    &:visited,&:link { color: black}
+    text-decoration: none;
+    &:hover {color:gray};
+    border-top: 1px solid #d3d3d3;
+`
+const Results = styled.div`
+    position: absolute;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    top: 45px;  
+    border: 1px solid #D3D3D3;
+    z-index: 5;
+    border-top: none;
+`
+const List = styled.ul`
+`
+const Items = styled.li`
+    padding: 16px 0;
+    list-style: none;
+    margin: 0 24px;
+`
+const SearchContainer = styled.div `
+    display: flex; 
+    align-items: center; 
+    width: 662px;
+    border: 1px solid #E0E0E0;  
+    background-color: #F8F8F8;
+    position: relative
+
+`
+const Input = styled.input `
+    height: 45px;
+    width: 100%;
+    border:none;
+    background: #f8f8f8;
+    font-size: 16px;
+    font-family: 'Montserrat';
+    padding-left: 22px; 
+    &:focus {outline:none}
+`

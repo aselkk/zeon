@@ -14,6 +14,8 @@ import CollectionsList from './Pages/Collections/CollectionsList'
 import CollectionItem from './Pages/Collections/CollectionItem'
 import Product from './Pages/Collections/Product'
 import {useState} from 'react'
+import Offer from './Pages/Offer'
+import FAB from './Components/FAB'
 
 function App() {
   const [searchResult, setSearchResult] = useState([])
@@ -22,7 +24,6 @@ function App() {
 
   const handleChange = (value) => {
     setSearchValue(value)
-    // console.log(searchValue);
   }
 
   return (
@@ -40,7 +41,9 @@ function App() {
                 <Route exact path='/collection/' element={<CollectionsList/>}/>
                 <Route exact path='/collection/:id' element={<CollectionItem/>}/>
                 <Route exact path='/collection/:id/product/:product' element={<Product/>}/>
+                <Route exact path='/offer' element={<Offer/>}/>
             </Routes>
+            <FAB/>
         <Footer style={{marginTop:'auto'}}/>
     </div>
   );

@@ -7,6 +7,46 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import CardItem from './Card'
 
+const Trending = () => {    
+    const [data, setData] = useState([]);
+    const [showMore, setShowMore] = useState(false)
+
+    const getClassic = async () => {
+        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products`)
+        const jsonData = await fetchData.json()
+        setData(jsonData)
+    }
+    
+    useEffect(() => {
+        getClassic()
+    }, [showMore])
+    
+    const handleClick = () => {
+        setShowMore(!showMore)
+    }
+
+    const hits = (data) ? data.filter((item)=> item.inHit === true) : null
+
+    return (
+        <Wrapper>
+            <Collection>Хит продаж</Collection> 
+            <Container> 
+                {hits?.slice(0, showMore ? 16 : 8).map(item=>(
+                    <div>
+                        <Triangle>
+                        </Triangle>
+                        <Sale>{item.sale}%</Sale>
+                        <CardItem item={item} key={item.id}/>
+                    </div>
+                ))}
+        </Container>    
+        <More onClick={handleClick}>{!showMore ? "Еще" : 'Скрыть'}</More>
+        </Wrapper>
+    );
+};
+
+export default Trending;
+
 
 const Container = styled.div`
     padding: 22px 99px;
@@ -56,49 +96,3 @@ const Sale = styled.p`
     font-weight: 500;
 }
 `
-
-const Trending = () => {    
-    const [data, setData] = useState([]);
-    const [limit, setLimit] = useState(8)
-    const [showMore, setShowMore] = useState(false)
-    const params = useParams()
-
-    const getClassic = async () => {
-        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products`)
-        const jsonData = await fetchData.json()
-        setData(jsonData)
-    }
-    
-    useEffect(() => {
-        getClassic()
-    }, [showMore])
-    
-    const handleClick = () => {
-        // setLimit(limit+4)
-        setShowMore(!showMore)
-    }
-
-    const hits = (data) ? data.filter((item)=> item.inHit === true) : null
-    
-    console.log(hits)
-    console.log(limit)
-    return (
-        <Wrapper>
-            <Collection>Хит продаж</Collection> 
-            <Container> 
-                {hits?.slice(0, showMore ? 16 : 8).map(item=>(
-                    <div>
-                        <Triangle>
-                        </Triangle>
-                        <Sale>{item.sale}%</Sale>
-                        <CardItem item={item} key={item.id}/>
-                    </div>
-                ))}
-        </Container>    
-        <More onClick={handleClick}>{!showMore ? "Еще" : 'Скрыть'}</More>
-        </Wrapper>
-    );
-};
-
-
-export default Trending;

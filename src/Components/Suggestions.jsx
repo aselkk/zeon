@@ -1,12 +1,42 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
 import {useParams} from 'react-router'
-import { NavLink } from "react-router-dom";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import CardItemSm from './CardSm'
+
+
+const Suggestion = ({dataItem}) => {    
+    const [data, setData] = useState([]);
+    const params = useParams()
+
+    const getInteresting = async () => {
+        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products/`)
+        const jsonData = await fetchData.json()
+        setData(jsonData)
+    }
+
+    useEffect(() => {
+        getInteresting()
+    }, [])
+
+    console.log(data)
+
+    return (
+        <Wrapper>
+            <Collection>Возможно вас заинтересует</Collection>
+            <Container> 
+                {(data) ? data.slice(0, 5).map(item=>(
+                    <CardItemSm item={item} key={item.id}/> 
+                )) : <div>...</div>}
+            </Container>
+        </Wrapper>
+    );
+};
+
+export default Suggestion;
 
 const Container = styled.div`
     display: flex;
@@ -48,32 +78,3 @@ const Sale = styled.p`
     font-weight: 500;
 }
 `
-const Suggestion = ({dataItem}) => {    
-    const [data, setData] = useState([]);
-    const params = useParams()
-
-    const getInteresting = async () => {
-        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products/`)
-        const jsonData = await fetchData.json()
-        setData(jsonData)
-    }
-
-    useEffect(() => {
-        getInteresting()
-    }, [])
-
-    console.log(data)
-
-    return (
-        <Wrapper>
-            <Collection>Возможно вас заинтересует</Collection>
-            <Container> 
-                {(data) ? data.slice(0, 5).map(item=>(
-                    <CardItemSm item={item} key={item.id}/> 
-                )) : <div>...</div>}
-            </Container>
-        </Wrapper>
-    );
-};
-
-export default Suggestion;

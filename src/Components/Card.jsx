@@ -10,60 +10,6 @@ import 'swiper/css/scrollbar';
 import {HeartOutlined} from '@styled-icons/entypo/HeartOutlined'
 import {Heart} from '@styled-icons/entypo/Heart'
 
-const Card = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 0 8px 8px 0;
-    position:relative;
-`
-const Image = styled.img`
-    width: 286px;
-    position:relative;
-`
-const CardInfo = styled.div`
-    background: white;
-    padding: 6px 8px;
-`
-const Title = styled.p`
-    font-weight: 400;
-    font-size: 14px;
-    margin-bottom: 6px
-`
-const Price = styled.p`
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 6px
-`
-const Size = styled.p`
-    font-weight: 400;
-    font-size: 13px;
-    color: #7C7C7C;
-    margin-bottom: 6px
-`
-const NavItem = styled(NavLink)`
-    text-decoration:none;
-    &:visited,&:link {
-    color: #393939;
-}`
-const HeartIcon = styled(HeartOutlined)`
-    color: white;
-    width: 1.5em;
-    height: 1.5em;
-    position: absolute;
-    right: 12px;
-    z-index: 100;
-    top: 12px;
-`
-const HeartFilled = styled(Heart)`
-    color: #E5271B;
-    width: 1.5em;
-    height: 1.5em;
-    position: absolute;
-    right: 12px;
-    z-index: 100;
-    top: 12px;
-`
-
 const CardItem = ({item}) => {   
         const [likepage, setLikePage] = useState([]);
 
@@ -139,3 +85,57 @@ const CardItem = ({item}) => {
 };
 
 export default CardItem;
+
+const Card = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0 8px 8px 0;
+    position:relative;
+`
+const Image = styled.img`
+    width: 286px;
+    position:relative;
+`
+const CardInfo = styled.div`
+    background: white;
+    padding: 6px 8px;
+`
+const Title = styled.p`
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: 6px
+`
+const Price = styled.p`
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 6px
+`
+const Size = styled.p`
+    font-weight: 400;
+    font-size: 13px;
+    color: #7C7C7C;
+    margin-bottom: 6px
+`
+const NavItem = styled(NavLink)`
+    text-decoration:none;
+    &:visited,&:link {
+    color: #393939;
+}`
+const HeartIcon = styled(HeartOutlined)`
+    color: white;
+    width: 1.5em;
+    height: 1.5em;
+    position: absolute;
+    right: 12px;
+    z-index: 100;
+    top: 12px;
+`
+const HeartFilled = styled(Heart)`
+    color: #E5271B;
+    width: 1.5em;
+    height: 1.5em;
+    position: absolute;
+    right: 12px;
+    z-index: 100;
+    top: 12px;
+`

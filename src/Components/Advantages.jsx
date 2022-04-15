@@ -7,41 +7,6 @@ import shop from '../assets/img/advantages/shop.png';
 
 const Advantages = () => {
 
-    const Container = styled.div`
-        display: flex;
-        flex-direction: row;
-    `
-    const Item = styled.div`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width:286px;
-        height:248px;
-        background: white;
-        margin-right: 8px;
-        margin-top: 18px;
-        box-sizing: border-box;
-        padding: 24px 12px;
-    `
-    const Wrapper = styled.div`
-        padding: 22px 99px;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    `
-    const Header = styled.h3`
-        font-weight: 500;
-        font-size: 14px;
-        color:#393939;
-        margin: 28px 0 10px 0
-    `
-    const Paragraph = styled.p`
-        font-weight: 400;
-        font-size: 14px;
-        color:#979797;
-        text-align: center;
-    `   
-
     return (
         <Wrapper>
             <h1 style={{fontWeight:'500', fontSize:'24px'}}>Наши преимущества</h1>
@@ -72,3 +37,39 @@ const Advantages = () => {
 };
 
 export default Advantages;
+
+
+const Container = styled.div`
+display: flex;
+flex-direction: row;
+`
+const Item = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+width:286px;
+height:248px;
+background: white;
+margin-right: 8px;
+margin-top: 18px;
+box-sizing: border-box;
+padding: 24px 12px;
+`
+const Wrapper = styled.div`
+padding: 22px 99px;
+display: flex;
+align-items: center;
+flex-direction: column;
+`
+const Header = styled.h3`
+font-weight: 500;
+font-size: 14px;
+color:#393939;
+margin: 28px 0 10px 0
+`
+const Paragraph = styled.p`
+font-weight: 400;
+font-size: 14px;
+color:#979797;
+text-align: center;
+`   

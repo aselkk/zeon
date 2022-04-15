@@ -6,10 +6,6 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper";
 import styled from 'styled-components'
 
-const Banner = styled.img`
-    width: 100%
-`
-
 export default function Carouselka() {
     return (
         <div style={{padding: '22px 99px'}}>
@@ -24,7 +20,6 @@ export default function Carouselka() {
                 pagination={{
                     clickable: true,
                 }}
-                navigation={true}
 
                 modules={[Autoplay, Pagination, Navigation]}
                 className="mySwiper"
@@ -37,3 +32,8 @@ export default function Carouselka() {
         </div>
     );
 }
+
+
+const Banner = styled.img`
+    width: 100%
+`

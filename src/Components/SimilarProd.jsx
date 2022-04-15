@@ -27,27 +27,6 @@ const Wrapper = styled.div `
     align-items: center;
     flex-direction: column;
 `
-const Triangle = styled.div`
-    position: absolute;
-    display: inline-block;
-    z-index: 10;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 50px 50px 0 0;
-    border-color: #E5271B transparent transparent transparent;
-`
-const Sale = styled.p`
-    z-index: 99;
-    position: absolute;
-    padding-top: 9px;
-    offset-rotate: 19px;
-    font-size: 12px;
-    color: white;
-    transform: rotate(318deg);
-    font-weight: 500;
-}
-`
 const SimilarProd = ({dataItem}) => {    
     const [data, setData] = useState([]);
     const params = useParams()

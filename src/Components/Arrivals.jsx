@@ -6,6 +6,50 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
+const Arrivals = () => {    
+    const [data, setData] = useState([]);
+    const [limit, setLimit] = useState(8)
+    const [showMore, setShowMore] = useState(false)
+
+    const getClassic = async () => {
+        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products`)
+        const jsonData = await fetchData.json()
+        setData(jsonData)
+    }
+    
+    useEffect(() => {
+        getClassic()
+    }, [showMore])
+    
+    const handleClick = () => {
+        // setLimit(limit+4)
+        setShowMore(!showMore)
+    }
+
+    
+    
+
+    const arrivals = (data) ? data.filter((item)=> item.isNew === true) : null
+    return (
+        <Wrapper>
+            <Collection>Новинки</Collection>
+            <Container> 
+                {arrivals?.slice(0, showMore ? 16 : 4).map(item=>(
+                    <div>
+                        <Triangle>
+                        </Triangle>
+                        <Sale>{item.sale}%</Sale>
+                        <CardItem item={item} key={item.id}/>
+                    </div>
+                ))}
+        </Container>    
+        <More onClick={handleClick}>{!showMore ? "Еще" : 'Скрыть'}</More>
+        </Wrapper>
+    );
+};
+
+export default Arrivals;
+
 
 const Container = styled.div`
     padding: 22px 99px;
@@ -55,47 +99,3 @@ const Sale = styled.p`
     font-weight: 500;
 }
 `
-
-const Arrivals = () => {    
-    const [data, setData] = useState([]);
-    const [limit, setLimit] = useState(8)
-    const [showMore, setShowMore] = useState(false)
-
-    const getClassic = async () => {
-        const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products`)
-        const jsonData = await fetchData.json()
-        setData(jsonData)
-    }
-    
-    useEffect(() => {
-        getClassic()
-    }, [showMore])
-    
-    const handleClick = () => {
-        // setLimit(limit+4)
-        setShowMore(!showMore)
-    }
-
-    
-    
-
-    const arrivals = (data) ? data.filter((item)=> item.isNew === true) : null
-    return (
-        <Wrapper>
-            <Collection>Новинки</Collection>
-            <Container> 
-                {arrivals?.slice(0, showMore ? 16 : 8).map(item=>(
-                    <div>
-                        <Triangle>
-                        </Triangle>
-                        <Sale>{item.sale}%</Sale>
-                        <CardItem item={item} key={item.id}/>
-                    </div>
-                ))}
-        </Container>    
-        <More onClick={handleClick}>{!showMore ? "Еще" : 'Скрыть'}</More>
-        </Wrapper>
-    );
-};
-
-export default Arrivals;

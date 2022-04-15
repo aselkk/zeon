@@ -20,3 +20,63 @@ body{
   width: 286px;
   height: 400px;
 }
+
+.MuiButton-root.Mui-disabled{
+  background:  #1d1d1b91;
+  color: #FFFFFF !IMPORTANT;  
+  text-transform: none;
+  border-radius: 0;
+  font-weight: 300;
+  cursor: not-allowed !IMPORTANT;  
+}
+.MuiButton-root.MuiButton-containedPrimary {
+  background:  #1D1D1B;
+  color: #FFFFFF !IMPORTANT;  
+  text-transform: none;
+  border-radius: 0;
+  font-weight: 300;
+}
+
+.MuiButton-root.MuiButton-containedPrimary:hover {
+  background:  #1D1D1B;
+  color: #FFFFFF !IMPORTANT;  
+  text-transform: none;
+  border-radius: 0;
+  font-weight: 300;
+}
+
+.MuiButtonBase-root-MuiButton-root {
+  background:  #1d1d1b91;
+  color: #FFFFFF !IMPORTANT;  
+  text-transform: none;
+  border-radius: 0;
+  font-weight: 300;
+}
+
+.MuiButtonBase-root{
+    width: 360px;   
+    height: 44px;
+    margin-top: 2px;
+    color: white;
+    border: none;
+    font-weight: 400;
+    font-size: 15px;
+    font-family: 'Montserrat';
+    border-radius: 0;
+}
+
+.paginationBttns {
+  width: 40%;
+  height: 40px;
+  list-style: none;
+  display: flex; 
+  justify-content: center;
+}
+
+.paginationBttns a {  
+  padding: 10px;
+  margin: 8px;
+  border: 1px solid gray;
+  color: black;
+  cursor: pointer;
+}
