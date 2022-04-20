@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components'
 import searchLogo from '../assets/img/searchLogo.png'
 import { NavLink } from "react-router-dom";
@@ -6,39 +6,48 @@ import {useParams} from 'react-router'
 
 const SearchBar = ({searchValue, setSearchValue, setSearchResult, searchResult  }) => {
     const params = useParams()
+    const [isOpen, setIsOpen] = useState(true)
+
 
     const getInputValue = (e) => {
         setSearchValue(e.target.value)
         searchItem()
     }
 
+    const resetInputField = () => {
+        setSearchValue('');
+    };
+
     const searchItem = async () => {
         const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products?title=${searchValue}`)
         const jsonData = await fetchData.json()
         setSearchResult(jsonData)
+        resetInputField()
     }
     
-    const [isOpen, setIsOpen] = useState(true)
     const toggle = () => {
-        setIsOpen(!isOpen)
+        setIsOpen(false)
+        resetInputField()
     }
     const handleKeyPress = (event) => {
         if(event.key === 'Enter'){
             setIsOpen(false)
         }  
-        
     }
 
     return (
             <SearchContainer>
-                <Input 
-                    placeholder='Поиск'
-                    onKeyUp={getInputValue}
-                    onKeyPress={handleKeyPress}
-                />
+                    <Input 
+                        placeholder='Поиск'
+                        onKeyUp={getInputValue}
+                        onKeyPress={handleKeyPress}
+                    />
+                    <NavItem onClick={()=>{setIsOpen(false)}} style={{border:'none'}} to='/search'> 
+                            <img onClick={toggle} style={{padding: '13px', cursor:'pointer',}} src={searchLogo} alt="searchLogo"/>
+                    </NavItem>
                 <Results style={{ visibility: isOpen ? 'visible': 'hidden'}}> 
                     {
-                        searchResult.slice(0,4).map((item) => {
+                        searchResult.slice(0,10).map((item) => {
                             return (
                                 <List>
                                     <NavItem to={`/collection/${params.id}/product/`+item.id}>
@@ -49,11 +58,6 @@ const SearchBar = ({searchValue, setSearchValue, setSearchResult, searchResult  
                         })
                     }
                 </Results>
-                <NavItem style={{border:'none'}} to='/search'> 
-                    <button onClick={toggle} style={{border:'none',background: '#f8f8f8', cursor:'pointer', height: '42px'}}>
-                        <img style={{padding: '13px'}} src={searchLogo} alt="searchLogo"/>
-                    </button> 
-                </NavItem>
             </SearchContainer>
     );
 };
@@ -67,7 +71,8 @@ const NavItem = styled(NavLink) `
     font-size: 17px;
     &:visited,&:link { color: black}
     text-decoration: none;
-    &:hover {color:gray};
+    &:hover {background: #ECECEC;
+    };
     border-top: 1px solid #d3d3d3;
 `
 const Results = styled.div`
@@ -80,6 +85,7 @@ const Results = styled.div`
     border: 1px solid #D3D3D3;
     z-index: 5;
     border-top: none;
+
 `
 const List = styled.ul`
 `
@@ -87,6 +93,8 @@ const Items = styled.li`
     padding: 16px 0;
     list-style: none;
     margin: 0 24px;
+    width: 100%;
+
 `
 const SearchContainer = styled.div `
     display: flex; 
@@ -94,7 +102,11 @@ const SearchContainer = styled.div `
     width: 662px;
     border: 1px solid #E0E0E0;  
     background-color: #F8F8F8;
-    position: relative
+    position: relative;
+    @media screen and (max-width: 390px) 
+    { 
+        display: none;
+    }
 
 `
 const Input = styled.input `

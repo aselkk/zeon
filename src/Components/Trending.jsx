@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
-import {useParams} from 'react-router'
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -22,7 +21,7 @@ const Trending = () => {
     }, [showMore])
     
     const handleClick = () => {
-        setShowMore(!showMore)
+        setShowMore(true)
     }
 
     const hits = (data) ? data.filter((item)=> item.inHit === true) : null
@@ -31,16 +30,13 @@ const Trending = () => {
         <Wrapper>
             <Collection>Хит продаж</Collection> 
             <Container> 
-                {hits?.slice(0, showMore ? 16 : 8).map(item=>(
+                {hits?.slice(0, showMore ? 16 : 8).map((item, index)=>(
                     <div>
-                        <Triangle>
-                        </Triangle>
-                        <Sale>{item.sale}%</Sale>
-                        <CardItem item={item} key={item.id}/>
+                        <CardItem item={item} key={index}/>
                     </div>
                 ))}
         </Container>    
-        <More onClick={handleClick}>{!showMore ? "Еще" : 'Скрыть'}</More>
+        <More onClick={handleClick}>Еще</More>
         </Wrapper>
     );
 };
@@ -54,6 +50,10 @@ const Container = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     color: #393939;
+    @media screen and (max-width: 390px) 
+    { 
+        padding: 22px 0;
+    }
 `
 const Collection = styled.h2`
     font-weight: 500;
@@ -75,24 +75,4 @@ const Wrapper = styled.div `
     align-items: center;
     flex-direction: column;
 `
-const Triangle = styled.div`
-    position: absolute;
-    display: inline-block;
-    z-index: 10;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 50px 50px 0 0;
-    border-color: #E5271B transparent transparent transparent;
-`
-const Sale = styled.p`
-    z-index: 99;
-    position: absolute;
-    padding-top: 9px;
-    offset-rotate: 19px;
-    font-size: 12px;
-    color: white;
-    transform: rotate(318deg);
-    font-weight: 500;
-}
-`
+

@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Modal, { ModalProvider, BaseModalBackground } from "styled-react-modal";
+import Modal, { ModalProvider } from "styled-react-modal";
 import done from '../../src/assets/img/callbackModal/done.png'
 import telephone from '../../src/assets/img/FAB/telephone.png'
 import close from '../../src/assets/img/callbackModal/close.png'
 
 
 function FancyModalButton({show}) {
+    const [cartItem, setCartItem] = useState(JSON.parse(localStorage.getItem('cartItem')))
     const [isOpen, setIsOpen] = useState((true));
     const [opacity, setOpacity] = useState(0);
-
 
     function toggleModal(e) {
         setOpacity(0);
         setIsOpen(!isOpen);
+        localStorage.removeItem('cartItem')   
+        document.location.reload();     
     }
 
     function afterOpen() {

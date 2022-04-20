@@ -1,40 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import styled from "styled-components";
 import Modal, { ModalProvider } from "styled-react-modal";
 import close from '../../src/assets/img/callbackModal/close.png'
 import { Button } from '@mui/material';
 import SecondModal from './SecondModal'
 import { Link } from "react-router-dom";
+import { useFormik} from 'formik';
+import * as Yup from 'yup';
 
-function CartModal() {
+function CartModal({cartItem}) {
     const [isOpen, setIsOpen] = useState((false));
     const [opacity, setOpacity] = useState(0);
-    const [message, setMessage] = useState("");
     const [stateBtn, setStateBtn] = useState(true)
-    const [state, setState] = useState({
-        name: '',
-        surname: '',
-        mail: '',
-        phoneNumber: '',
-        country: '',
-        city: ''
-    })
     const [modalState, setModalState] = useState(false)
+    const [message, setMessage] = useState()
 
-
-
-    let handleSubmit = async (e) => {
-        e.preventDefault();
+    let handleSubmit = async (values) => {
+        const { firstName, lastName, email, phone, country, city, checked } = values;
         try {
         let res = await fetch("https://623c659f8e9af58789508891.mockapi.io/checkout", {
             method: "POST",
             body: JSON.stringify({
-            name: state.name,
-            surname: state.surname,
-            mail: state.mail,
-            phoneNumber: state.phoneNumber,
-            country: state.country,
-            city: state.city,
+            name: firstName,    
+            surname: lastName,
+            mail: email,
+            phone: phone,
+            country: country,
+            city: city,
+            checked: checked,
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -50,7 +43,8 @@ function CartModal() {
         console.log(err);
         }
     };
-
+    console.log(cartItem)
+    const data = cartItem
     function toggleModal(e) {
         setOpacity(0);
         setIsOpen(!isOpen);
@@ -66,32 +60,46 @@ function CartModal() {
         setTimeout(resolve, 300);
         });
     }
-    const handleChange = (val) => {
-        if(val.target.name === 'name'){
-            setState({...state, name: val.target.value})
-        }
-        if(val.target.name === 'surname'){
-            setState({...state, surname: val.target.value})
-        }
-        if(val.target.name === 'mail'){
-            setState({...state, mail: val.target.value})
-        }
-        if(val.target.name === 'phoneNumber'){
-            setState({...state, phoneNumber: val.target.value})
-        }
-        if(val.target.name === 'country'){
-            setState({...state, country: val.target.value})
-        }
-        if(val.target.name === 'city'){
-            setState({...state, city: val.target.value})
-        }
-    }
 
-    const handleCheck = (e) => {
-        if(e.target.name === 'offer'){
+    const formik = useFormik({
+        initialValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            country: '',
+            city: '',
+            checked: false,
+        },
+        validationSchema: Yup.object({
+            firstName: Yup.string()
+                .max(15, 'Must be 15 characters or less')
+                .required('Пожалуйста, заполните это поле.'),
+            lastName: Yup.string()
+                .max(20, 'Must be 20 characters or less')
+                .required('Пожалуйста, заполните это поле.'),
+            email: Yup.string().email('Неверный адрес электронной почты').required('Пожалуйста, заполните это поле.'),
+            phone: Yup.number()
+                .required('Пожалуйста, заполните это поле.'),
+            country: Yup.string()
+                .max(20, 'Must be 20 characters or less')
+                .required('Пожалуйста, заполните это поле.'),
+            city: Yup.string()
+            .required('Пожалуйста, заполните это поле.'),
+            checked: Yup.boolean().oneOf([true], 'Cначала вы должны принять публичную оферту'),
+            }),
+            onSubmit: values => {
+                handleSubmit(values)
+                console.log(values)
+            },
+        });    
+
+    useEffect(()=> {
+        if (formik.values.firstName && formik.values.lastName && formik.values.email && formik.values.phone && formik.values.country && formik.values.city && formik.values.checked) {
             setStateBtn(false)
         }
-    }
+        console.log(formik.initialValues, 'test');
+    },[formik.values.firstName,formik.values.lastName,formik.values.email,formik.values.phone,formik.values.country,formik.values.city,formik.values.checked])
     
     return (
         <div>
@@ -110,70 +118,110 @@ function CartModal() {
                     <div>
                         <Title>Оформление заказа</Title>
                     </div>
+                    <Form  style={{display:'flex', flexDirection:'column'}} onSubmit={formik.handleSubmit}>
+                    <Label htmlFor="firstName">Ваше имя</Label>
+                    {formik.touched.firstName && formik.errors.firstName ? (
+                        <Error>{formik.errors.firstName}</Error>
+                    ) : null}
+                    <Input
+                    placeholder='Например Иван'
+                        id="firstName"
+                        name="firstName"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.firstName}
+                    />
+                    <Label htmlFor="lastName">Ваша фамилия</Label>
+                    {formik.touched.lastName && formik.errors.lastName ? (
+                        <Error>{formik.errors.lastName}</Error>
+                    ) : null}
+                    <Input
+                    placeholder='Например Иванов'
+                        id="lastName"
+                        name="lastName"
+                        type="text"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.lastName}
+                    />
+                    <Label htmlFor="email">Электронная почта</Label>
+                    {formik.touched.email && formik.errors.email ? (
+                        <Error>{formik.errors.email}</Error>
+                    ) : null}
+                    <Input
+                        placeholder='example@mail.com'
+                        id="email"
+                        name="email"
+                        type="email"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.email}
+                    />
+                    <Label htmlFor="phone">Ваш номер телефона</Label>
+                    {formik.touched.phone && formik.errors.phone ? (
+                        <Error>{formik.errors.phone}</Error>
+                    ) : null}
+                    <Input
+                        placeholder='Введите номер телефона'
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.phone}
+                    />
 
-                <Form onSubmit={handleSubmit}>
-                        <Label for="name">Ваше имя</Label>
-                        <Input
-                        name='name'
+                    <Label htmlFor="country">Страна</Label>
+                    {formik.touched.country && formik.errors.country ? (
+                        <Error>{formik.errors.country}</Error>
+                    ) : null}
+                    <Input
+                        placeholder='Введите страну'
+                        id="country"
+                        name="country"
                         type="text"
-                        placeholder="Например Иван"
-                        onChange={e => handleChange(e)}
-                        required='true'
-                        />
-                        <Label for="name">Ваша фамилия</Label>
-                        <Input
-                        name='surname'
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.country}
+                    />
+                    <Label htmlFor="city">Город</Label>
+                    {formik.touched.city && formik.errors.city ? (
+                        <Error>{formik.errors.city}</Error>
+                    ) : null}
+                    <Input
+                        placeholder='Введите город'
+                        id="city"
+                        name="city" 
                         type="text"
-                        placeholder="Например Иванов"
-                        onChange={e => handleChange(e)}
-                        required
-                        />
-                        <Label for="name">Электронная почта</Label>
-                        <Input
-                        name='mail'
-                        type="text"
-                        placeholder="example@mail.com"
-                        onChange={e => handleChange(e)}
-                        required
-                        />
-                        <Label for="name">Ваш номер телефона</Label>
-                        <Input
-                        name='phoneNumber'
-                        type="text"
-                        placeholder="Введите номер телефона"
-                        onChange={e => handleChange(e)}
-                        required
-                        />
-                        <Label for="name">Страна</Label>
-                        <Input
-                        name='country'
-                        type="text"
-                        placeholder="Введите страну"
-                        onChange={e => handleChange(e)}
-                        required
-                        />
-                        <Label for="name">Город</Label>
-                        <Input
-                        name='city'
-                        type="text"
-                        placeholder="Введите город"
-                        onChange={e => handleChange(e)}
-                        required='true'
-                        minlength='2'
-                        />                        
-                        <div style={{display: 'flex', fontWeight: '500', fontSize: '15px', marginTop:'6px', alignItems:'center', marginBottom:'32px'}}>
-                    <Check type="checkbox" id="offer" name="offer" onChange={e => handleCheck(e)}/>
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.city}
+                    />
+                    {formik.touched.checked && formik.errors.checked ? (
+                        <Error>{formik.errors.checked}</Error>
+                    ) : null}
+                    <div style={{display: 'flex', fontWeight: '500', fontSize: '15px', marginTop:'6px', alignItems:'center', marginBottom:'32px'}}>
+                    <Check 
+                        type="checkbox"
+                        id="checked"  
+                        name="checked" 
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.checked}/>
                     <label for="offer">Согласен с условиями </label><Link style={{textDecoration:'none', paddingLeft:'2px', color:'rgba(56,116,223,1)'}} to='/Offer'> публичной оферты</Link>
-                </div>
-                    <div className="message">{message ? <p>{message}</p> : null}</div>
-                    <Btn type="submit" onClick={handleSubmit} variant = {(stateBtn) ? 'disabled' : 'contained'}> Заказать </Btn>
-                </Form>
+                    </div>
+
+                    <Btn variant = {(stateBtn) ? 'disabled' : 'contained'} type="submit">Заказать</Btn>
+                    </Form>
+                
                 </StyledModal>
                 </ModalProvider>
             ): (
                 <SecondModal/>
             )}
             <OrderBtn type="submit" onClick={toggleModal}> Оформить заказ </OrderBtn>
+            
         </div>
         
     );
@@ -198,6 +246,7 @@ const Form = styled.form`
     display: flex;
     flex-direction: column; 
     position: relative; 
+    box-sizing: border-box;
 `
 const Input = styled.input`
     width: 392px;
@@ -206,7 +255,6 @@ const Input = styled.input`
     margin-bottom: 12px;
     border: 1px solid rgba(31, 31, 31, 0.08);
     box-sizing: border-box;
-    border-radius: 3px;
     color: #393939 !important;
     font-size: 14px;
     font-weight: 400;
@@ -266,4 +314,9 @@ const Check = styled.input`
     width: 18px;
     border: 1.2px solid #919191;
     margin-right: 11px;
+`
+const Error = styled.div`
+    color: red;
+    font-size: 13px;
+    margin:0 0 7px 0;
 `

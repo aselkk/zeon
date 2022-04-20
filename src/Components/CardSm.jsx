@@ -10,7 +10,7 @@ import 'swiper/css/scrollbar';
 import {HeartOutlined} from '@styled-icons/entypo/HeartOutlined'
 import {Heart} from '@styled-icons/entypo/Heart'
 
-const CardItemSm = ({item}) => {   
+const CardItemSm = ({item, func}) => {   
         const [likepage, setLikePage] = useState([]);
 
     useEffect(() => {
@@ -41,6 +41,7 @@ const CardItemSm = ({item}) => {
             favorite.push(item);
             setLikePage(true);
             localStorage.setItem("favorite", JSON.stringify(favorite));
+            func()
             return;
         }
 
@@ -91,7 +92,14 @@ const Card = styled.div`
     display: flex;
     flex-direction: column;
     margin: 0 8px 8px 0;
+    transition: .3s;
     position:relative;
+    &:hover {
+        -webkit-transform: scale(1.03);
+        -ms-transform: scale(1.03);
+        transform: scale(1.03);
+        box-shadow: 0 0 14px rgba(33,33,33,.4); 
+    }
 `
 const Image = styled.img`
     width: 226px;

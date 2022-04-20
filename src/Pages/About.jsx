@@ -1,35 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
 
-const AboutUs = styled.section `
-    padding: 22px 99px;
-    display: flex;
-    align-items: center;
-    background: #ECECEC;
-`
-const AboutArticle = styled.article `
-    width: 465px; 
-    background: #fff;
-    padding: 12px 24px;
-`
-const AboutImg = styled.div `
-    display: flex;
-    flex-direction: column; 
-    
-`
-const AboutHeader = styled.h2 `
-    font-weight: 500;
-    font-size: 24px; 
-    color: #393939;
-    margin-bottom: 8px;
-`
-const AboutParagraph = styled.p `
-    font-weight: 500;
-    font-size: 15px;
-    color: #979797;
-    line-height: 24px;
-`
-
 const About = () => {
     const [data, setData] = useState([]);
 
@@ -61,3 +32,36 @@ const About = () => {
 };
 
 export default About;
+
+const AboutUs = styled.section `
+    padding: 22px 99px;
+    display: flex;
+    align-items: center;
+    background: #ECECEC;
+`
+const AboutArticle = styled.article `
+    width: 465px; 
+    background: #fff;
+    padding: 12px 24px;
+    @media screen and (max-width: 390px) 
+    { 
+        width: 288px; 
+    }
+`
+const AboutImg = styled.div `
+    display: flex;
+    flex-direction: column; 
+    
+`
+const AboutHeader = styled.h2 `
+    font-weight: 500;
+    font-size: 24px; 
+    color: #393939;
+    margin-bottom: 8px;
+`
+const AboutParagraph = styled.p `
+    font-weight: 500;
+    font-size: 15px;
+    color: #979797;
+    line-height: 24px;
+`

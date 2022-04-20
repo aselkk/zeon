@@ -5,7 +5,6 @@
 
 body{ 
   font-family: 'Montserrat';
-
 }
 
 .swiper-button-prev {
@@ -66,17 +65,59 @@ body{
 }
 
 .paginationBttns {
-  width: 40%;
   height: 40px;
   list-style: none;
-  display: flex; 
-  justify-content: center;
+  display: flex;
+  justify-content: end;
+  margin-top: 34px;
+  margin-right: 31px;
+  width: 95%;
 }
 
-.paginationBttns a {  
-  padding: 10px;
-  margin: 8px;
-  border: 1px solid gray;
-  color: black;
-  cursor: pointer;
+.paginationBttns a{  
+    padding: 12px 14px;
+    margin: 10px;
+    height: 58px;
+    width: 44px;
+    color: black;
+    cursor: pointer;
+    background: white;
+    width: 100%
+}
+.paginationBttns a:hover{
+  background: black;
+  color: white
+}
+.paginationActive a {
+  background: black;
+  color: white
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #000 !important;
+}
+
+.MuiAccordionSummary-root{
+  width: 100%;
+  border:none;
+}
+.MuiAccordion-root::before {
+  display:none;
+  border-top: transparent;
+  background-color: transparent;
+}
+
+/* .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+  bottom: 4px;
+  left: 0;
+  width: 100%;
+  position: absolute; 
+} */
+
+.swiper-pagination{
+  color: red
+}
+
+.swiper{
+  height: 430px;
 }

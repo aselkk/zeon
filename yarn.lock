@@ -15648,6 +15648,13 @@
     "react-scripts" "3.4.1"
     "styled-components" "^5.1.0"
 
+"react-form-input-validation@^2.0.5":
+  "integrity" "sha512-YyBjXsTlPqTS6d/t4a/ZBJccOn1afskrURZmqpiJoZFVsB3mNHIo1MwTrsbDyjkthFYIJ6ttc3su65sfSLKi2Q=="
+  "resolved" "https://registry.npmjs.org/react-form-input-validation/-/react-form-input-validation-2.0.5.tgz"
+  "version" "2.0.5"
+  dependencies:
+    "validatorjs" "^3.18.1"
+
 "react-icons@^4.3.1":
   "integrity" "sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ=="
   "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.3.1.tgz"
@@ -18924,6 +18931,11 @@
   dependencies:
     "spdx-correct" "^3.0.0"
     "spdx-expression-parse" "^3.0.0"
+
+"validatorjs@^3.18.1":
+  "integrity" "sha512-451KiCt/3E8qV/8fOUdO0YkA8zUdQBNVxubg9jvgEB+JAg9IlRKrClzwq2ir2ndj7TWmPYQ7bXFb4BxcyX2iWw=="
+  "resolved" "https://registry.npmjs.org/validatorjs/-/validatorjs-3.22.1.tgz"
+  "version" "3.22.1"
 
 "vary@~1.1.2":
   "integrity" "sha1-IpnwLG3tMNSllhsLn3RSShj2NPw="

@@ -23,6 +23,7 @@
     "react-dom": "^17.0.2",
     "react-fetch-hook": "^1.8.5",
     "react-floating-button": "^1.1.1",
+    "react-form-input-validation": "^2.0.5",
     "react-icons": "^4.3.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-infinite-scroll-hook": "^4.0.2",

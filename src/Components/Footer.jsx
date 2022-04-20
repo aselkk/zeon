@@ -21,11 +21,10 @@ const Footer = () => {
         getData()
     }, [])
 
-    console.log('')
     return (
         <Wrapper>
             <div>
-                <Link to='/'><img src={data.logo2} alt="img"/></Link>
+                <Link to='/'><MainLogo src={data.logo2} alt="img"/></Link>
                 <Copyright>Developed by Zeon 2022</Copyright>
             </div>
             <Column>
@@ -60,6 +59,12 @@ const Wrapper = styled.section`
     justify-content: space-between;
     align-items: center;
     padding: 48px 99px 76px 99px; 
+    @media screen and (max-width: 390px) 
+    { 
+        flex-direction: column;
+        padding: 24px 16px;
+        align-items: flex-start;
+    }
 
 `
 const Column = styled.div`
@@ -70,6 +75,11 @@ const Title = styled.h3`
     font-weight: 600;
     font-size: 16px;
     margin-bottom: 18px;
+    @media screen and (max-width: 390px) 
+    { 
+        font-size:14px;
+        font-weight: 500;
+    }
 `
 const Copyright = styled.p`
     font-size: 14px;
@@ -77,9 +87,16 @@ const Copyright = styled.p`
     color: #B9B9B9;
     position: relative;
     top: 60px;
+    @media screen and (max-width: 390px) 
+    { 
+        bottom: 0px
+        position: absolute;
+        top: 391px;
+    }
 `
 const Icon = styled.img `
-    padding-right: 7px
+    padding-right: 7px;
+    
 `
 const Info = styled.a`
     display: flex;
@@ -90,4 +107,16 @@ const Info = styled.a`
     padding-bottom: 12px;
     text-decoration: none;
     &:visited,&:link { color: white}
+    @media screen and (max-width: 390px) 
+    { 
+        font-size:12px;
+        font-weight: 400;
+    }
+`
+
+const MainLogo = styled.img`
+    @media screen and (max-width: 390px) 
+    { 
+        padding: 0 49px;
+    }
 `

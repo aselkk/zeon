@@ -7,7 +7,120 @@ import line from '../assets/img/cart/line.png'
 import { useState, useEffect } from 'react';
 import CartModal from '../Components/CartModal'
 
+const Cart = () => {
+    const setCartItemsCallback = () => {
+        let cartItems;
+        cartItems = localStorage.getItem('cartItem') ? JSON.parse(localStorage.getItem("cartItem")) : [];
 
+        if (cartItems.length) {
+            cartItems = cartItems.map(element => ({...element, uniqueID: Math.random().toString(16).slice(2)}));
+        };
+
+        return cartItems;
+    };
+    const setTotalCostCallback = () => cartItem?.reduce((acc, item) => acc + (item.oldPrice * item.count), 0);
+    const totalQtyCallback = () => cartItem?.reduce((acc, item) => acc + item.count, 0);
+    const totalItemsCallback = () => cartItem?.reduce((acc, item) => acc + (item.quantity * item.count), 0);
+    const setTotalDiscountAmountCallback = () => {
+        return (cartItem) ? cartItem
+            .map((item) => ({
+                ...item,
+                discountPrice: (item.oldPrice * item.count) / 100 * item.sale
+            }))
+            .reduce((acc, item) => acc + item.discountPrice, 0)
+            .toFixed() : null
+    };
+
+    const [cartItem, setCartItem] = useState(setCartItemsCallback);
+    const [totalCost, setTotalCost] = useState(setTotalCostCallback);
+    const [totalDiscountAmount, setTotalDiscountAmount] = useState(setTotalDiscountAmountCallback);
+    const [totalQty, setTotalQty] = useState(totalQtyCallback)
+    const [totalItems, setTotalItems] = useState(totalItemsCallback)
+
+    useEffect(() => {
+        setTotalCost(setTotalCostCallback)
+        setTotalDiscountAmount(setTotalDiscountAmountCallback)
+        setTotalQty(totalQtyCallback)
+        setTotalItems(totalItemsCallback)
+        localStorage.setItem("cartItem", JSON.stringify(cartItem));
+    }, [cartItem]);
+
+    const deleteItem = ({ id }) => {
+        const index = cartItem.findIndex(item => item.id === id);
+        cartItem.splice(index, 1);
+        setCartItem([...cartItem]);
+    };
+
+    const changeQty = (cardId, action) => {
+        const item = cartItem.find((item) => item.id === cardId);
+
+        if (item.count > 0) {
+            action === 'increase' ? item.count += 1 : item.count -= 1
+            setCartItem([...cartItem])
+        }
+
+        if (item.count === 0) {
+            deleteItem(item)
+        }
+    };
+
+    console.log(cartItem)
+
+    function numberWithSpaces(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+
+
+    if (cartItem.length) {
+        return (
+            <div>
+                <Container>
+                    <Products>
+                        {
+                            cartItem.map((item) => (
+                                <Item key={item.uniqueID}>
+                                    <DeleteBtn onClick={()=>deleteItem(item)}>
+                                        <img src={deleteBtn} alt="" />
+                                    </DeleteBtn>
+                                    <Img src={item.image[1]} alt="" />
+                                    <Info>
+                                        <Name>{item.title}</Name>
+                                        <Details>Размер: {item.size}</Details>
+                                        <Details>Цвет:
+                                                    <Color style={{background: (item.chosenColor) ? item.chosenColor : item.color[0]}}></Color>
+                                        </Details>
+                                        <Price>{numberWithSpaces(item.price)} p <OldPrice>{numberWithSpaces(item.oldPrice)} p</OldPrice></Price>
+                                        <Count>
+                                            <Icon onClick={() => changeQty(item.id, 'decrease')} src={minus} alt=""/>
+                                            <Counter>{item.count}</Counter>
+                                            <Icon onClick={()=> changeQty(item.id, 'increase')} src={plus} alt=""/>
+                                        </Count>
+                                    </Info>
+                                </Item>
+                            ))
+                        }
+                    </Products>
+                    <Order>
+                        <Title>Сумма заказа</Title>
+                        <Total>Количество линеек: <Sum> {totalQty}  шт</Sum> </Total>
+                        <Total>Количество товаров:<Sum> {totalItems} шт</Sum> </Total>
+                        <Total>Стоимость: <Sum>{numberWithSpaces(totalCost)} рублей</Sum></Total>
+                        <Total>Скидка: <Sum>{numberWithSpaces(totalDiscountAmount)} рублей</Sum></Total>
+                        <Line src={line} alt="" />
+                        <Total style={{marginBottom:'16px'}}>
+                            Итого к оплате: <Sum> {numberWithSpaces(totalCost - totalDiscountAmount)} рублей</Sum>
+                        </Total>
+                        <CartModal cartItem={cartItem}/>
+                    </Order>
+                </Container>
+            </div>
+        );
+    } else {
+        return <H3>Ваша корзина пуста </H3>
+    }
+};
+
+export default Cart;
 
 const Container = styled.div `
     padding: 22px 99px;
@@ -76,6 +189,9 @@ const H3 = styled.h3`
     font-size: 16px;
     font-weight: 400;
     color:#393939;
+    text-align: center;
+    padding: 15px;
+    margin: 180px 0;
 `
 const Sum = styled.span`
     color:#393939;
@@ -95,7 +211,7 @@ const Details = styled.p`
     align-items: center;
 `
 const Color = styled.span`
-    height: 8px; 
+    height: 8px;
     width: 8px;
     border-radius: 50%;
     margin-left: 8px;
@@ -128,117 +244,3 @@ const Img = styled.img`
     width: 112px;
     height: 142px;
 `
-
-const Cart = () => {
-
-    const [cartItem, setCartItem] = useState(JSON.parse(localStorage.getItem('cartItem')))
-    const setTotalCostCallback = () => cartItem.reduce((acc, item) => acc + (item.oldPrice * item.count), 0);
-    const totalQtyCallback = () => cartItem.reduce((acc, item) => acc + item.count, 0);
-    const totalItemsCallback = () => cartItem.reduce((acc, item) => acc + item.quantity, 0);
-    const setTotalDiscountAmountCallback = () => {
-        return cartItem
-            .map((item) => ({
-                    ...item,
-                    discountPrice: (item.oldPrice * item.count) / 100 * item.sale
-                }))
-            .reduce((acc, item) => acc + item.discountPrice, 0)
-            .toFixed();
-    }
-    const [totalCost, setTotalCost] = useState(setTotalCostCallback);
-    const [totalDiscountAmount, setTotalDiscountAmount] = useState(setTotalDiscountAmountCallback);
-    const [totalQty, setTotalQty] = useState(totalQtyCallback)
-    const [totalItems, setTotalItems] = useState(totalItemsCallback)
-    console.log(totalItems)
-
-    const [loaded, setLoaded] = useState(false)
-    useEffect(() => {
-        if (loaded) return ;
-            setCartItem(JSON.parse(localStorage.getItem('cartItem')))
-        setLoaded(true)
-    }, [loaded])
-
-    function del(product) {
-        for(let i = 0; i < cartItem.length; i++ ) {
-            if (cartItem[i].id == product.id) {
-                cartItem.splice(i, 1);
-                localStorage.setItem("cartItem", JSON.stringify(cartItem));
-
-                setTotalCost(totalCost - (product.oldPrice * product.count))
-                setTotalDiscountAmount(totalDiscountAmount - (product.price * product.count))
-                setTotalQty(totalQty - product.count)
-                setTotalItems(totalItems - product.quantity)
-                setLoaded(false)
-
-                return;
-        }
-        }
-    }
-
-    const changeQty = (cardId, action) => {
-        const item = cartItem.find((item) => item.id === cardId);
-
-        if (item.count > 0) {
-            action === 'increase' ? item.count += 1 : item.count -= 1
-            setCartItem([...cartItem])
-            setTotalCost(setTotalCostCallback)
-            setTotalDiscountAmount(setTotalDiscountAmountCallback)
-            setTotalQty(totalQtyCallback)
-            setTotalItems(totalItemsCallback)
-
-            localStorage.setItem('cartItem', JSON.stringify(cartItem));
-        }
-
-        if (item.count === 0) {
-            del(item)
-            setTotalCost(setTotalCostCallback)
-            setTotalDiscountAmount(setTotalDiscountAmountCallback)
-            setTotalQty(totalQtyCallback)
-        }
-    }
-
-    return (
-        <div>
-            <Container>
-                <Products>
-                    {
-                        (cartItem) ? cartItem.map((item) => (
-                            <Item key={item.id}>
-                                <DeleteBtn onClick={()=>del(item)}>
-                                    <img src={deleteBtn} alt="" />
-                                </DeleteBtn>
-                                <Img src={item.image[1]} alt="" />
-                                <Info>
-                                    <Name>{item.title}</Name>
-                                    <Details>Размер: {item.size}</Details>
-                                    <Details>Цвет: 
-                                            {item.color.map(color => (
-                                                <Color style={{background: color}}></Color>
-                                            ))}
-                                    </Details>
-                                    <Price>{item.price} p <OldPrice>{item.oldPrice} p</OldPrice></Price>
-                                    <Count>
-                                        <Icon onClick={() => changeQty(item.id, 'decrease')} src={minus} alt=""/>
-                                        <Counter>{item.count}</Counter>
-                                        <Icon onClick={()=> changeQty(item.id, 'increase')} src={plus} alt=""/>
-                                    </Count>
-                                </Info>
-                            </Item>
-                        )) : <H3>Ваша корзина пуста(( </H3>
-                    }
-                </Products>
-                <Order>
-                        <Title>Сумма заказа</Title>
-                        <Total>Количество линеек: <Sum>{totalItems} шт.</Sum> </Total>
-                        <Total>Количество товаров:<Sum>{totalQty} шт.</Sum> </Total>
-                        <Total>Стоимость: <Sum>{totalCost} рублей</Sum></Total>
-                        <Total>Скидка: <Sum>{totalDiscountAmount}  рублей</Sum></Total>
-                        <Line src={line} alt="" />
-                        <Total style={{marginBottom:'16px'}}>Итого к оплате: <Sum>{totalCost - totalDiscountAmount} рублей</Sum> </Total>
-                        <CartModal/>
-                </Order>
-            </Container>
-        </div>
-    );
-};
-
-export default Cart;

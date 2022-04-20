@@ -12,7 +12,7 @@ const CollectionItem = () => {
     const params = useParams()
     const [data, setData] = useState([]);
     const [pageNumber, setPageNumber] = useState(0)
-    const dataPerPage = 5
+    const dataPerPage = 4
     const pagesVisited = pageNumber * dataPerPage
 
     const getCollections = async () => {
@@ -32,7 +32,7 @@ const CollectionItem = () => {
             return (
                 <CardItem item={item} key={item.id}/>
             )
-        }) : <div>oops</div>
+        }) : <div></div>
     
     const pageCount = Math.ceil(data?.data?.length / dataPerPage)
     console.log(pageCount)

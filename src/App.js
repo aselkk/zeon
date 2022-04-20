@@ -13,11 +13,14 @@ import SearchPage from './Pages/SearchPage'
 import CollectionsList from './Pages/Collections/CollectionsList'
 import CollectionItem from './Pages/Collections/CollectionItem'
 import Product from './Pages/Collections/Product'
-import {useState} from 'react'
+import { useState} from 'react'
 import Offer from './Pages/Offer'
 import FAB from './Components/FAB'
+import Breadcrumbs from './Components/Breadcrumbs';
+
 
 function App() {
+ 
   const [searchResult, setSearchResult] = useState([])
 
   const [searchValue, setSearchValue] = useState('')
@@ -29,6 +32,7 @@ function App() {
   return (
     <div className="app">
         <Navbar searchValue={searchValue} setSearchValue={handleChange} setSearchResult={setSearchResult} searchResult={searchResult}/>
+        <Breadcrumbs/>
             <Routes>
                 <Route exact path='/' element={<Home/>}/>
                 <Route exact path='/about' element={<About/>}/>

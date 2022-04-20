@@ -64,7 +64,7 @@ const News = () => {
                 <NewsItem key={id}>
                     <Article>
                     <h3 style={{fontWeight:'500', fontSize:'16px', marginBottom:'6px', textTransform:'capitalize'}}>{title}</h3>
-                    <p style={{fontWeight:'300', fontSize:'14px', color:'#5B5B5B'}}>{body}</p>
+                    <p style={{fontWeight:'300', fontSize:'14px', color:'#5B5B5B'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.{body}</p>
                     </Article>
                     <img src={newsImg} alt="img" />
                 </NewsItem>

@@ -20,7 +20,7 @@ const ScrollButton = () =>{
         if (scrolled > 300){
             setVisible(true)
         } 
-        else if (scrolled <= 300){
+        else if (scrolled <= 500){
             setVisible(false)
         }
     };
@@ -71,6 +71,10 @@ const ScrollBtn = styled.button `
     z-index: 100;
     height: 26px;
     width: 26px;
+    @media screen and (max-width: 390px) 
+    { 
+        right: 13px;
+    }
 `
 const FeedBack = styled.button `
     border: none; 
@@ -81,6 +85,10 @@ const FeedBack = styled.button `
     z-index: 1;
     right: 107px;
     width: 30px;
+    @media screen and (max-width: 390px) 
+    { 
+        right: 13px;
+    }
 
 `
 const Whatsapp = styled.a `
@@ -91,6 +99,10 @@ const Whatsapp = styled.a `
     top:688px;
     right:203px;
     z-index: 2;
+    @media screen and (max-width: 390px) 
+    { 
+        right: 155px;
+    }
 `
 const Telegram = styled.a `
     border: none; 
@@ -100,4 +112,8 @@ const Telegram = styled.a `
     top:688px;
     right:254px;
     z-index: 2;
+    @media screen and (max-width: 390px) 
+    { 
+        right: 102px;
+    }
 `

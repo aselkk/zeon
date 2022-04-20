@@ -14,6 +14,8 @@ const Product = () => {
     const [cartPage, setCartPage] = useState([]);
     let idProd = params.product
     const [likepage, setLikePage] = useState([]);
+    const [chosenColor, setChosenColor] = useState(null)
+    const [itemClicked, setItemClicked] = useState(null)
 
     const getProduct = async () => {
         const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products/${idProd}`)
@@ -48,7 +50,8 @@ const Product = () => {
                 return;
                 }
             }
-            data = {...data, count: 1}
+            data = {...data, count: 1, chosenColor}
+            console.log(data)
             cartItem.push(data);
             setCartPage(true);
             localStorage.setItem("cartItem", JSON.stringify(cartItem));
@@ -86,15 +89,23 @@ const Product = () => {
                 localStorage.setItem("favorite", JSON.stringify(favorite));
                 return;
             }
+
+            const handleClick = (color, index) => {
+                console.log(color, index)
+                setItemClicked(index)
+                setChosenColor(color)
+                console.log(chosenColor)
+            }
+
     return (
         <Wrapper>
         {
             data.image &&
             <Container>
                     <Images>
-                        {data.image.slice(0,4).map(img => (
+                        {data.image.slice(0,4).map((img,id) => (
                             <div>
-                                <ProductImg src={img} alt="" />
+                                <ProductImg key={id} src={img} alt="" />
                             </div>
                         ))}
                     </Images>
@@ -102,13 +113,20 @@ const Product = () => {
                 <ProductInfo>  
                     <Title>{data.title}</Title>
                     <Details>Артикул: <Info>{data.art}</Info></Details>
+
+
                     <Details style={{display:'flex'}}> Цвет: 
                     <div style={{display:'flex', alignItems:'center', paddingLeft:'6px'}}> 
-                        {data.color.map(color => (
-                            <div style={{backgroundColor: color, height:"8px", width:'8px', borderRadius:'50%', marginRight:'16px'}}></div>
+                        {data.color.map((color, index) => (
+                            <div  key={index} onClick={() => {handleClick(color, index)}} style={{ border: index === itemClicked ?  '1px solid grey' : 'none', padding: '3px', cursor: 'pointer'}}>
+                                <SelectColor key={index} style={{backgroundColor: color}}></SelectColor>
+                            </div>
                         ))}
                     </div>
                     </Details>
+
+
+
                     <Price>{data.price} p <OldPrice>{data.oldPrice} p</OldPrice></Price>
                     <Details style={{fontSize:'16px'}}>О товаре: <br/><Info style={{color:'#6A6A6A', lineHeight:'25px'}}>{data.description}</Info></Details>
                     <div style={{display:'flex', justifyContent:'space-between'}}>
@@ -137,7 +155,6 @@ const Product = () => {
             </Container>
         }
         <div>
-            
         </div>
         <SimilarProd dataItem={data} item={data}/>
         </Wrapper>
@@ -151,34 +168,65 @@ const Wrapper = styled.div `
     padding: 22px 99px;        
     background: #ECECEC;
     color: #393939;
+    @media screen and (max-width: 390px) 
+    { 
+        padding: 10px 5px;    
+    }
 `
 const Container = styled.div `
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    @media screen and (max-width: 390px) 
+    { 
+        flex-direction: column;
+        overflow: auto;
+        align-items:center;
+    }
 `
 const ProductImg = styled.img`
     display: flex;
     width: 308px;
     margin-bottom: 8px;
+    @media screen and (max-width: 390px) 
+    { 
+        width: 100px;
+        margin:3px
+    }
 
 `
 const ProductInfo = styled.div`
     width: 520px;
-    height: 390px;
+    height: fit-content;
     background: white;
     padding: 24px;  
     position: relative;
+    @media screen and (max-width: 390px) 
+    { 
+        width: 278px;
+        height: 490px;
+        margin-top: 15px;
+        padding: 18px;  
+    }
 `
 const Title = styled.h1`
     font-weight: 500;
     font-size: 24px;
+    @media screen and (max-width: 390px) 
+    { 
+        font-size: 18px;
+    }
 `
 const Details = styled.p`
     font-weight: 500;
     font-size: 14px;
     color: #1D1D1B;
     margin-top: 14px;
+    @media screen and (max-width: 390px) 
+    { 
+        font-size: 13px;
+        font-weight: 400px;
+    }
 
 `
 const Info = styled.span`
@@ -190,12 +238,20 @@ const Price = styled.p`
     font-weight: 400;
     font-size: 24px;
     margin-top: 20px;
+    @media screen and (max-width: 390px) 
+    { 
+        font-size: 18px;
+    }
 `
 const OldPrice = styled.span`
     font-weight: 500;
     font-size: 16px;
     color: #979797;
     text-decoration: line-through;
+    @media screen and (max-width: 390px) 
+    { 
+        font-size: 14px;
+    }
 
 `
 const AddToCart = styled.button`
@@ -232,24 +288,47 @@ const Images = styled.div`
     flex-wrap:wrap;
     width: 625px;
     box-sizing: border-box;
-    justify-content: space-between
+    justify-content: space-between;
+    @media screen and (max-width: 390px) 
+    { 
+        width: 250px;
+        justify-content: center;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+    }
 `
 const HeartIcon = styled(HeartOutlined)`
     color: white;
     width: 2em;
     height: 2em;
-    z-index: 100;
+    z-index: 1;
     position: absolute;
     top: 10px;
     left: 8px;
+    @media screen and (max-width: 390px) 
+    { 
+        top: 8px;
+        left: 6px;
+    }
 `
 const HeartFilled = styled(Heart)`
     color: white;
     width: 2em;
     height: 2em;
-    z-index: 100;
+    z-index: 1;
     position: absolute;
     top: 10px;
     left: 8px;
-
+    @media screen and (max-width: 390px) 
+    { 
+        top: 8px;
+        left: 6px;
+    }
+`
+const SelectColor = styled.div`
+    cursor: pointer;
+    height:8px;
+    width:8px;
+    border-radius:50%;
 `

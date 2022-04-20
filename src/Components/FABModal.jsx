@@ -116,7 +116,7 @@ function FancyModalButton({show}) {
                 </StyledModal>
                 </ModalProvider>
             ): (
-                <SecondModal/>
+                <SecondModal />
             )}
             
         </div>
@@ -180,6 +180,10 @@ const Callback = styled.button `
     top:688px;
     right:152px;
     z-index: 33;
+    @media screen and (max-width: 390px) 
+    { 
+        right: 50px;
+    }
 
 `
 const Title = styled.h1`

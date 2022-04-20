@@ -8,7 +8,6 @@ import 'swiper/css/scrollbar';
 
 const Arrivals = () => {    
     const [data, setData] = useState([]);
-    const [limit, setLimit] = useState(8)
     const [showMore, setShowMore] = useState(false)
 
     const getClassic = async () => {
@@ -22,34 +21,25 @@ const Arrivals = () => {
     }, [showMore])
     
     const handleClick = () => {
-        // setLimit(limit+4)
-        setShowMore(!showMore)
+        setShowMore(true)
     }
-
-    
-    
-
     const arrivals = (data) ? data.filter((item)=> item.isNew === true) : null
     return (
         <Wrapper>
             <Collection>Новинки</Collection>
             <Container> 
-                {arrivals?.slice(0, showMore ? 16 : 4).map(item=>(
-                    <div>
-                        <Triangle>
-                        </Triangle>
-                        <Sale>{item.sale}%</Sale>
-                        <CardItem item={item} key={item.id}/>
+                {arrivals?.slice(0, showMore ? 16 : 4).map((item, index)=>(
+                    <div ket={index}>
+                        <CardItem item={item} key={index}/>
                     </div>
                 ))}
         </Container>    
-        <More onClick={handleClick}>{!showMore ? "Еще" : 'Скрыть'}</More>
+        <More onClick={handleClick}>Еще</More>
         </Wrapper>
     );
 };
 
 export default Arrivals;
-
 
 const Container = styled.div`
     padding: 22px 99px;
@@ -57,6 +47,10 @@ const Container = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     color: #393939;
+    @media screen and (max-width: 390px) 
+    { 
+        padding: 22px 0;
+    }
 `
 const Collection = styled.h2`
     font-weight: 500;
@@ -77,25 +71,4 @@ const Wrapper = styled.div `
     justify-content: center;
     align-items: center;
     flex-direction: column;
-`
-const Triangle = styled.div`
-    position: absolute;
-    display: inline-block;
-    z-index: 10;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 50px 50px 0 0;
-    border-color: #E5271B transparent transparent transparent;
-`
-const Sale = styled.p`
-    z-index: 99;
-    position: absolute;
-    padding-top: 9px;
-    offset-rotate: 19px;
-    font-size: 12px;
-    color: white;
-    transform: rotate(318deg);
-    font-weight: 500;
-}
 `

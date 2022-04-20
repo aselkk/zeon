@@ -8,7 +8,7 @@ import styled from 'styled-components'
 
 export default function Carouselka() {
     return (
-        <div style={{padding: '22px 99px'}}>
+        <Wrapper>
             <Swiper
                 slidesPerView={1}
                 spaceBetween={30}
@@ -24,16 +24,24 @@ export default function Carouselka() {
                 modules={[Autoplay, Pagination, Navigation]}
                 className="mySwiper"
             >   
-                <SwiperSlide> <Banner src='https://www.lovemodestfashion.com/image/cache/catalog/banner-new-1-1920x600.jpg' /></SwiperSlide>
-                <SwiperSlide> <Banner src='https://www.lovemodestfashion.com/image/cache/catalog/banner-new-2-1920x600.jpg' /></SwiperSlide>
-                <SwiperSlide> <Banner src='https://www.lovemodestfashion.com/image/cache/catalog/banner-new-1-1920x600.jpg' /></SwiperSlide>
-                <SwiperSlide> <Banner src='https://www.lovemodestfashion.com/image/cache/catalog/banner-new-2-1920x600.jpg' /></SwiperSlide>
+                <SwiperSlide> <a href='https://www.adidas.ru/' target="_blank"><Banner src='https://www.lovemodestfashion.com/image/cache/catalog/banner-new-1-1920x600.jpg' /></a></SwiperSlide>
+                <SwiperSlide> <a href='https://www.nike.com/' target='_blank'><Banner src='https://www.lovemodestfashion.com/image/cache/catalog/banner-new-2-1920x600.jpg' /></a></SwiperSlide>
+                <SwiperSlide> <a href='https://www.adidas.ru/' target="_blank"><Banner src='https://www.lovemodestfashion.com/image/cache/catalog/banner-new-1-1920x600.jpg' /></a></SwiperSlide>
+                <SwiperSlide> <a href='https://www.nike.com/' target='_blank'><Banner src='https://www.lovemodestfashion.com/image/cache/catalog/banner-new-2-1920x600.jpg' /></a></SwiperSlide>
             </Swiper>
-        </div>
+            <div class="swiper-pagination"></div>
+        </Wrapper>
     );
 }
 
 
 const Banner = styled.img`
     width: 100%
+`
+const Wrapper = styled.section`
+    padding: 22px 99px; 
+    @media screen and (max-width: 390px) 
+    { 
+        padding: 10px 0;
+    }
 `
