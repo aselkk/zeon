@@ -53,7 +53,6 @@ const Wrapper = styled.div `
     flex-direction: row;
     padding: 22px 99px;
     background: #ECECEC;
-
     `
 const Container = styled.div `
     margin-left: 24px;

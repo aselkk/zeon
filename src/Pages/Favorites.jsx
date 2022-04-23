@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import CardItem from '../Components/Card'
 import styled from 'styled-components'
 import CardItemSm from '../Components/CardSm'
 
 const Favorites = () => {
-
     const [data, setData] = useState([]);
     const [favorites, setFavorites] = useState([])
     const [loaded, setLoaded] = useState(false)
+    const [render,reRender] = useState()
 
+    const forceRender = useCallback(()=>{
+        reRender({})
+    },[])
+    console.log('component was rendered')
     const getInteresting = async () => {
         const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products`)
         const jsonData = await fetchData.json()
@@ -20,10 +24,10 @@ const Favorites = () => {
     }, [])
 
     useEffect(() => {
-        if (loaded) return ;
+        // if (loaded) return ;
             setFavorites(JSON.parse(localStorage.getItem('favorite')))
-        setLoaded(true)
-    }, [loaded])
+        // setLoaded(true)  
+    }, [loaded, render])
     
     return (
         <Wrapper>
@@ -31,13 +35,13 @@ const Favorites = () => {
             <Container> 
             {
                 (favorites?.length > 0) ? favorites.map((item, index) => (
-                    <CardItem item={item} key={index}/>
+                    <CardItem item={item} key={index} forceRender= {forceRender}/>
                 )) : <div>
                         <H3>У Вас пока нет избранных товаров</H3>
                         <Collection>Возможно вас заинтересует</Collection>
                         <Container>     
                             {(data) ? data.slice(0, 5).map((item, index)=>(
-                                <CardItemSm item={item} key={index} /> 
+                                <CardItemSm item={item} key={index} forceRender= {forceRender}/> 
                             )) : <div></div>}
                         </Container>
                     </div>

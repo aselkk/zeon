@@ -12,10 +12,11 @@ const Product = () => {
     const params = useParams()
     const [data, setData] = useState({});
     const [cartPage, setCartPage] = useState([]);
-    let idProd = params.product
     const [likepage, setLikePage] = useState([]);
     const [chosenColor, setChosenColor] = useState(null)
     const [itemClicked, setItemClicked] = useState(null)
+    let idProd = params.product
+
 
     const getProduct = async () => {
         const fetchData = await fetch(`https://623c659f8e9af58789508891.mockapi.io/products/${idProd}`)
@@ -96,6 +97,11 @@ const Product = () => {
                 setChosenColor(color)
                 console.log(chosenColor)
             }
+        
+        
+            function numberWithSpaces(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            }
 
     return (
         <Wrapper>
@@ -118,7 +124,12 @@ const Product = () => {
                     <Details style={{display:'flex'}}> Цвет: 
                     <div style={{display:'flex', alignItems:'center', paddingLeft:'6px'}}> 
                         {data.color.map((color, index) => (
-                            <div  key={index} onClick={() => {handleClick(color, index)}} style={{ border: index === itemClicked ?  '1px solid grey' : 'none', padding: '3px', cursor: 'pointer'}}>
+                            <div 
+                            key={index} 
+                            onClick={() => {
+                                handleClick(color, index)}
+                            } 
+                            style={{ border: index === itemClicked ?  '1px solid grey' : 'none', padding: '3px', cursor: 'pointer'}}>
                                 <SelectColor key={index} style={{backgroundColor: color}}></SelectColor>
                             </div>
                         ))}
@@ -127,7 +138,7 @@ const Product = () => {
 
 
 
-                    <Price>{data.price} p <OldPrice>{data.oldPrice} p</OldPrice></Price>
+                    <Price>{numberWithSpaces(data.price)} p <OldPrice>{numberWithSpaces(data.oldPrice)} p</OldPrice></Price>
                     <Details style={{fontSize:'16px'}}>О товаре: <br/><Info style={{color:'#6A6A6A', lineHeight:'25px'}}>{data.description}</Info></Details>
                     <div style={{display:'flex', justifyContent:'space-between'}}>
                         <div style={{paddingRight: '64px'}}>

@@ -5,6 +5,8 @@ import Trending from '../Components/Trending'
 import Arrivals from '../Components/Arrivals';
 import CollectionComponents from '../Components/CollectionComponents';
 
+
+
 const Home = () => {
     return (
         <div style={{background: '#ECECEC'}}>

@@ -10,7 +10,7 @@ import 'swiper/css/scrollbar';
 import {HeartOutlined} from '@styled-icons/entypo/HeartOutlined'
 import {Heart} from '@styled-icons/entypo/Heart'
 
-const CardItem = ({item}) => {   
+const CardItem = ({item, forceRender}) => {   
         const [likepage, setLikePage] = useState([]);
 
     const func = () => {
@@ -36,6 +36,9 @@ const CardItem = ({item}) => {
             }
             for (let i = 0; i < favorite.length; i++) {
                 if (favorite[i].id === item.id) {
+                if(forceRender){
+                    forceRender()
+                }
                 setLikePage(false);
                 favorite.splice(i, 1);
                 localStorage.setItem("favorite", JSON.stringify(favorite));
